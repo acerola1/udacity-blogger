@@ -1,41 +1,39 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Route, Switch } from 'react-router-dom';
+
+function CompList(props) {
+  console.log("props", props);
+  let {categoryId = ''} = props.match.params;
+  if (categoryId != 'category') {
+    props.history.push('/not_found');
+  }
+  return (<div>CompList</div>)
+}
+
+function NotFound(props) {
+  console.log("props", props);
+  return (<div>Page not Found</div>)
+}
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      backend: 'backend-data'
-    }
-  }
-
-  componentDidMount() {
-    const url = `${process.env.REACT_APP_BACKEND}/categories`;
-    console.log('fetching from url', url);
-    fetch(url, { headers: { 'Authorization': 'whatever-you-want' }, })
-      .then((res) => {
-        return (res.text())
-      })
-      .then((data) => {
-        this.setState({ backend: data });
-      });
   }
 
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          Talking to the backend yields these categories: <br />
-          {this.state.backend}
-        </p>
+      <div>
+        <Switch>
+          <Route exact path="/" render={() => (
+            <div>
+              root
+            </div>)} />
+          <Route exact path="/not_found" component={NotFound} />
+          <Route exact path="/:categoryId" component={CompList} />
+          <Route exact path="*" component={NotFound} />
+        </Switch>
       </div>
     );
   }
