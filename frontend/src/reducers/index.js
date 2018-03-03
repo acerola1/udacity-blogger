@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { SET_CATEGORIES, SET_POSTS, CHANGE_LOADING } from '../actions';
+import { SET_CATEGORIES, SET_POSTS, CHANGE_LOADING, SET_COMMENTS } from '../actions';
 
 const defaultLoading = {
   category: false,
@@ -26,7 +26,12 @@ function post(state = {}, action) {
 }
 
 function comment(state = {}, action) {
-  return state;
+  switch (action.type) {
+    case SET_COMMENTS:
+      return {...action.payload};
+    default:
+      return state;
+  }
 }
 
 function loading(state = defaultLoading, action) {

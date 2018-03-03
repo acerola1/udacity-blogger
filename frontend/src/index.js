@@ -7,7 +7,7 @@ import registerServiceWorker from './registerServiceWorker';
 import { createStore, applyMiddleware, compose } from 'redux'
 import reducer from './reducers';
 import thunk from 'redux-thunk';
-import { fetchCategories, fetchPosts } from './actions';
+import { fetchCategories, fetchPosts, fetchComments } from './actions';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -21,6 +21,7 @@ const store = createStore(
 
 store.dispatch(fetchCategories());
 store.dispatch(fetchPosts());
+store.dispatch(fetchComments('8xf0y6ziyjabvozdd253nd'));
 
 ReactDOM.render(
   <Provider store={store}>

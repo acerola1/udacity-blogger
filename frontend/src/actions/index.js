@@ -1,7 +1,8 @@
-import { loadCategories, loadPosts } from '../utils/blogApi';
+import { loadCategories, loadPosts, loadComments } from '../utils/blogApi';
 
 export const SET_CATEGORIES = 'SET_CATEGORIES';
 export const SET_POSTS = 'SET_POSTS';
+export const SET_COMMENTS = 'SET_COMMENTS';
 export const CHANGE_LOADING = 'CHANGE_LOADING';
 
 export function setCategories(categories) {
@@ -16,6 +17,13 @@ export function setPosts(posts) {
     type: SET_POSTS,
     posts
   };
+}
+
+export function setComments(postId, comments) {
+  return {
+    type: SET_COMMENTS,
+    payload: {postId, comments}
+  }
 }
 
 export function changeLoading(component) {
@@ -41,6 +49,16 @@ export function fetchPosts() {
     loadPosts().then(( posts ) => {
       dispatch(setPosts(posts));
       dispatch(changeLoading({post: false}));
+    });
+  }
+}
+
+export function fetchComments(postId) {
+  return dispatch => {
+    dispatch(changeLoading({comment: true}));
+    loadComments(postId).then(( comments ) => {
+      dispatch(setComments(postId, comments));
+      dispatch(changeLoading({comment: false}));
     });
   }
 }

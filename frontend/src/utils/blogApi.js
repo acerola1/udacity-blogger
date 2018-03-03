@@ -29,3 +29,14 @@ export function loadPosts() {
       return JSON.parse(data);
     });
 }
+
+export function loadComments(postId) {
+  const url = `${baseUrl}/posts/${postId}/comments`;
+  return fetch(url, { headers })
+    .then((res) => {
+      return (res.text())
+    })
+    .then((data) => {
+      return JSON.parse(data);
+    });
+}
