@@ -12,7 +12,6 @@ class App extends Component {
 
   componentDidMount() {
     const url = `${process.env.REACT_APP_BACKEND}/categories`;
-    //const url = `http://localhost:3001/categories`;
     console.log('fetching from url', url);
     fetch(url, { headers: { 'Authorization': 'whatever-you-want' }, } )
       .then( (res) => { 
