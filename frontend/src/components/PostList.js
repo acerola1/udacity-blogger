@@ -1,19 +1,31 @@
 import React, { Component } from 'react';
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton'
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import { connect } from 'react-redux';
 
 const styles = {
-  block: {
-    maxWidth: 250,
-  },
   radioButton: {
-    marginBottom: 16,
+    display: 'inline-block',
+    width: 'auto',
+    marginLeft: '10px'
   },
+  icon: {
+    marginRight: '5px'
+  },
+  buttonGroup: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  }
 };
 
 class PostList extends Component {
 	constructor(props) {
 		super(props)
 	}
+
+  categoryChange(path) {
+    this.props.history.push(path);
+  }
 
   render() {
     let {categoryId = ''} = this.props.match.params;
@@ -22,21 +34,35 @@ class PostList extends Component {
     }*/
     return (
       <div>
-        <RadioButtonGroup name="shipSpeed" defaultSelected="not_light">
-          <RadioButton
-            value="all"
-            label="All"
-            style={styles.radioButton}
-          />
-          <RadioButton
-            value="react"
-            label="React"
-            style={styles.radioButton}
-          />
+        Categories:
+        <RadioButtonGroup
+          onChange={(e, value) => this.categoryChange(value)}
+          name="shipSpeed"
+          defaultSelected="/"
+          style={styles.buttonGroup}
+        >
+          {this.props.categories.map( category => {
+            return (<RadioButton
+              key={category.name}
+              value={category.path}
+              label={category.name}
+              style={styles.radioButton}
+              iconStyle={styles.icon}
+            />)
+          })}
         </RadioButtonGroup>
       </div>
     );
   }
 }
 
-export default PostList;
+function mapStateToProps(state) {
+  return {
+    categories: state.category
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(PostList)

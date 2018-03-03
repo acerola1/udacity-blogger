@@ -7,10 +7,19 @@ const defaultLoading = {
   comment: false
 }
 
-function category(state = {}, action) {
+const defaultCategory = [{
+  name: "all",
+  path: "/"
+}];
+
+function category(state = defaultCategory, action) {
   switch (action.type) {
     case SET_CATEGORIES:
-      return { ...action.categories };
+      const catArray = Object.keys(action.categories).map( key => {
+        const {name, path} = action.categories[key];
+        return {name, path};
+      });
+      return [...state, ...catArray];
     default:
       return state;
   }
