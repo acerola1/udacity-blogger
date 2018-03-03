@@ -1,5 +1,11 @@
 import { combineReducers } from 'redux';
-import { SET_CATEGORIES, SET_POSTS } from '../actions';
+import { SET_CATEGORIES, SET_POSTS, CHANGE_LOADING } from '../actions';
+
+const defaultLoading = {
+  category: false,
+  post: false,
+  comment: false
+}
 
 function category(state = {}, action) {
   switch (action.type) {
@@ -23,8 +29,18 @@ function comment(state = {}, action) {
   return state;
 }
 
+function loading(state = defaultLoading, action) {
+  switch (action.type) {
+    case CHANGE_LOADING:
+      return {...state, ...action.component};
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   category,
   post,
-  comment
+  comment,
+  loading
 });
