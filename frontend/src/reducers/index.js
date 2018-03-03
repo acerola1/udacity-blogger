@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { SET_CATEGORIES } from '../actions';
+import { SET_CATEGORIES, SET_POSTS } from '../actions';
 
 function category(state = {}, action) {
   switch (action.type) {
@@ -11,7 +11,12 @@ function category(state = {}, action) {
 }
 
 function post(state = {}, action) {
-  return state;
+  switch (action.type) {
+    case SET_POSTS:
+      return { ...action.posts };
+    default:
+      return state;
+  }
 }
 
 function comment(state = {}, action) {

@@ -19,9 +19,8 @@ export function loadCategories() {
     });
 }
 
-export function loadPosts(category = '') {
-  const categoryUrl = category ? `/${category}` : '';
-  const url = `${baseUrl}${categoryUrl}/posts`;
+export function loadPosts() {
+  const url = `${baseUrl}/posts`;
   return fetch(url, { headers })
     .then((res) => {
       return (res.text())
