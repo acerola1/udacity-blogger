@@ -5,13 +5,17 @@ import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
-import {grey400, darkBlack} from 'material-ui/styles/colors';
+import {grey400, darkBlack, grey600} from 'material-ui/styles/colors';
 import {Card} from 'material-ui/Card';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import * as moment from 'moment';
+import FontIcon from 'material-ui/FontIcon';
+import Checkbox from 'material-ui/Checkbox';
+import UpVote from 'material-ui/svg-icons/action/thumb-up';
+import DownVote from 'material-ui/svg-icons/action/thumb-down';
 
 const styles = {
   card: {
@@ -19,7 +23,21 @@ const styles = {
   }
 }
 
+function VoteComponent(props) {
+  return (
+  <div style={{float: 'right', marginTop: '-15px'}}>
+    <IconButton onClick={(e) => {e.stopPropagation(); console.log(e)}} iconStyle={{width: '20px'}} style={{verticalAlign: 'sub'}} tooltip="up vote" touch={true}>
+      <UpVote color={grey600} />
+    </IconButton>
+    <div style={{marginTop: '-5px', display: 'inline-block', color: grey600}}>{props.voteScore}</div>
+    <IconButton iconStyle={{width: '20px'}} style={{verticalAlign: 'sub'}} tooltip="down vote" touch={true}>
+      <DownVote color={grey600} />
+    </IconButton>
+  </div>
+)};
+
 class PostList extends Component {
+
   iconButtonElement = (
     <IconButton
       touch={true}
@@ -32,8 +50,7 @@ class PostList extends Component {
 
   rightIconMenu = (
     <IconMenu iconButtonElement={this.iconButtonElement}>
-      <MenuItem>Reply</MenuItem>
-      <MenuItem>Forward</MenuItem>
+      <MenuItem>Edit</MenuItem>
       <MenuItem>Delete</MenuItem>
     </IconMenu>
   );
@@ -51,6 +68,7 @@ class PostList extends Component {
                   leftAvatar={<Avatar src="/User.png" />}
                   rightIconButton={this.rightIconMenu}
                   primaryText={post.title}
+                  onClick={() => console.log("list")}
                   secondaryText={
                     <p>
                       <span style={{color: darkBlack}}>
@@ -61,7 +79,9 @@ class PostList extends Component {
                     </p>
                   }
                   secondaryTextLines={2}
-                />
+                >
+                    <VoteComponent voteScore={post.voteScore}/>
+                </ListItem>
               </Fragment>
             )}
           </List>
