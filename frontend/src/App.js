@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { Route, Switch } from 'react-router-dom';
-import PostList from './components/PostList';
+import CategoryContainer from './components/CategoryContainer';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 function NotFound(props) {
@@ -19,10 +19,8 @@ class App extends Component {
       <div>
         <MuiThemeProvider>
           <Switch>
-            <Route exact path="/" component={PostList} />
-            <Route exact path="/not_found" component={NotFound} />
-            <Route exact path="/:categoryId" component={PostList} />
-            <Route exact path="*" component={NotFound} />
+            <Route exact path="/" component={CategoryContainer} />
+            <Route path="/:categoryId" component={CategoryContainer} />
           </Switch>
         </MuiThemeProvider>
       </div>
