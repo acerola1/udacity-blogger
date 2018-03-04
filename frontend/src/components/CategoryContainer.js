@@ -40,7 +40,13 @@ const CategorySelector = (props) => {
       targetOrigin={{horizontal: 'left', vertical: 'top'}}
     >
       {props.categories.map(category => (
-        <MenuItem key={category.name} value={category.path} primaryText={category.name.toUpperCase()} />
+        <MenuItem
+          key={category.name}
+          value={category.path}
+          checked={props.categoryName === category.name}
+          primaryText={category.name.toUpperCase()}
+          style={{textAlign: 'left'}}
+        />
       ))}
     </IconMenu>
 )};
