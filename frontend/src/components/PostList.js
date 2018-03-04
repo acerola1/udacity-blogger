@@ -48,7 +48,7 @@ class PostList extends Component {
               <Fragment key={post.id}>
                 {index !==0 && <Divider inset={true} />}
                 <ListItem
-                  leftAvatar={<Avatar src="images/ok-128.jpg" />}
+                  leftAvatar={<Avatar src="/User.png" />}
                   rightIconButton={this.rightIconMenu}
                   primaryText={post.title}
                   secondaryText={
