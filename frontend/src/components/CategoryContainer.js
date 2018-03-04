@@ -1,55 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import IconMenu from 'material-ui/IconMenu';
-import NavigationBack from 'material-ui/svg-icons/navigation/chevron-left';
+import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
-import FlatButton from 'material-ui/FlatButton';
-import ExpandMore from 'material-ui/svg-icons/navigation/expand-more';
 import PostList from './PostList';
 import { getCategories, getCategoryByPath } from '../reducers/selectors';
 
 const CategorySelector = (props) => {
-  const {onItemClick} = props;
   const styles = {
     category: {
-      marginTop: '6px',
+      marginTop: '-3px',
       width: '140px'
     },
     categoryLabel: {
       color: 'white',
-    },
-    icon: {
-      color: 'white'
     }
   };
+
   return (
-    <IconMenu
-      {...{onItemClick}}
-      iconButtonElement={
-        <FlatButton
-          label={props.categoryName}
-          labelStyle={styles.categoryLabel}
-          style={styles.category}
-          labelPosition="before"
-          icon={<ExpandMore color="white"/>}
-        />
-      }
-      anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-      targetOrigin={{horizontal: 'left', vertical: 'top'}}
+    <DropDownMenu
+      style={styles.category}
+      labelStyle={styles.categoryLabel}
+      value={props.categoryPath}
+      onChange={props.onChange}
     >
       {props.categories.map(category => (
-        <MenuItem
-          key={category.name}
-          value={category.path}
-          checked={props.categoryName === category.name}
-          primaryText={category.name.toUpperCase()}
-          style={{textAlign: 'left'}}
-        />
+        <MenuItem value={category.path} key={category.name} primaryText={category.name} />
       ))}
-    </IconMenu>
-)};
+    </DropDownMenu>
+  )};
 
 class CategoryContainer extends Component {
 	constructor(props) {
@@ -64,14 +43,15 @@ class CategoryContainer extends Component {
 
     const {categories, category} = this.props;
     const categoryName = category ? category.name : '';
+    const categoryPath = category ? category.path : '/';
 
     return (
       <div>
         <AppBar
           title="Readable"
           iconElementLeft={<CategorySelector
-            onItemClick={(event, item) => this.props.history.push(item.props.value)}
-            {...{categoryName, categories}}/>
+            onChange={(e, i) => this.props.history.push(categories[i].path)}
+            {...{categoryName, categoryPath, categories}}/>
           }
         />
         <PostList {...{categoryName}} />

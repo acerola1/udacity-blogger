@@ -5,7 +5,7 @@ import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
-import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
+import {grey400, darkBlack} from 'material-ui/styles/colors';
 import {Card} from 'material-ui/Card';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
