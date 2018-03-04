@@ -11,6 +11,7 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import * as moment from 'moment';
 
 const styles = {
   card: {
@@ -49,10 +50,13 @@ class PostList extends Component {
                 <ListItem
                   leftAvatar={<Avatar src="images/ok-128.jpg" />}
                   rightIconButton={this.rightIconMenu}
-                  primaryText={post.author}
+                  primaryText={post.title}
                   secondaryText={
                     <p>
-                      <span style={{color: darkBlack}}>{post.title}</span><br />
+                      <span style={{color: darkBlack}}>
+                        <strong>{post.author}</strong>
+                        {`, ${moment(+post.timestamp).fromNow()}, comments: ${post.commentCount}`}
+                      </span><br />
                       {post.body}
                     </p>
                   }
@@ -60,8 +64,6 @@ class PostList extends Component {
                 />
               </Fragment>
             )}
-
-
           </List>
         </Card>
       </div>
