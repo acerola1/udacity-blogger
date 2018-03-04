@@ -8,18 +8,17 @@ import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import ExpandMore from 'material-ui/svg-icons/navigation/expand-more';
 import PostList from './PostList';
-import { getCategories } from '../reducers/selectors';
+import { getCategories, getCategoryByPath } from '../reducers/selectors';
 
 const CategorySelector = (props) => {
   const {onItemClick} = props;
   const styles = {
     category: {
       marginTop: '6px',
-      width: '170px'
+      width: '140px'
     },
     categoryLabel: {
       color: 'white',
-      fontSize: '24px'
     },
     icon: {
       color: 'white'
@@ -56,15 +55,14 @@ class CategoryContainer extends Component {
   }
 
   render() {
-    let {categoryId = '/'} = this.props.match.params;
-    const {categories} = this.props;
-    let categoryName = categoryId === '/' ? categories[0].name : categoryId;
+
+    const {categories, category} = this.props;
+    const categoryName = category ? category.name : '';
 
     return (
       <div>
         <AppBar
           title="Readable"
-          titleStyle={{textAlign: "center"}}
           iconElementLeft={<CategorySelector
             onItemClick={(event, item) => this.props.history.push(item.props.value)}
             {...{categoryName, categories}}/>
@@ -76,13 +74,15 @@ class CategoryContainer extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
+  let {categoryPath = '/'} = props.match.params;
   return {
-    categories: getCategories(state)
+    categories: getCategories(state),
+    category: getCategoryByPath(state, categoryPath)
   }
 }
 
 export default connect(
   mapStateToProps,
   null
-)(CategoryContainer)
+)(CategoryContainer);

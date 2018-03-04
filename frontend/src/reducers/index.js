@@ -8,7 +8,7 @@ const defaultLoading = {
 }
 
 const defaultCategory = [{
-  name: "all",
+  name: "All",
   path: "/"
 }];
 

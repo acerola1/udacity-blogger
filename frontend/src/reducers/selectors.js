@@ -7,8 +7,13 @@ export function getPosts(state) {
 }
 
 export function getPostsByCategory(state, categoryName) {
-  if (categoryName === 'all') {
+  if (categoryName === 'All') {
     return getPosts(state);
   }
   return getPosts(state).filter( post => post.category === categoryName);
+}
+
+export function getCategoryByPath(state, path) {
+  const cat = getCategories(state).find( category => category.path === path);
+  return cat;
 }

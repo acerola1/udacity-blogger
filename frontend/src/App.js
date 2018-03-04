@@ -15,7 +15,7 @@ class App extends Component {
         <MuiThemeProvider>
           <Switch>
             <Route exact path="/" component={CategoryContainer} />
-            <Route path="/:categoryId" component={CategoryContainer} />
+            <Route path="/:categoryPath" component={CategoryContainer} />
           </Switch>
         </MuiThemeProvider>
       </div>

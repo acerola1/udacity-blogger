@@ -9,7 +9,7 @@ const defaultData = {
     title: 'Udacity is the best place to learn React',
     body: 'Everyone says so after all.',
     author: 'thingtwo',
-    category: 'react',
+    category: 'React',
     voteScore: 6,
     deleted: false,
     commentCount: 2
@@ -20,7 +20,7 @@ const defaultData = {
     title: 'Learn Redux in 10 minutes!',
     body: 'Just kidding. It takes more than 10 minutes to learn technology.',
     author: 'thingone',
-    category: 'redux',
+    category: 'Redux',
     voteScore: -5,
     deleted: false,
     commentCount: 0
