@@ -25,10 +25,10 @@ function category(state = defaultCategory, action) {
   }
 }
 
-function post(state = {}, action) {
+function post(state = [], action) {
   switch (action.type) {
     case SET_POSTS:
-      return { ...action.posts };
+      return [ ...action.posts ];
     default:
       return state;
   }

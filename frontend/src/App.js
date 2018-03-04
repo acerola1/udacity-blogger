@@ -4,11 +4,6 @@ import { Route, Switch } from 'react-router-dom';
 import CategoryContainer from './components/CategoryContainer';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-function NotFound(props) {
-  console.log("props", props);
-  return (<div>Page not Found</div>);
-}
-
 class App extends Component {
   constructor(props) {
     super(props);

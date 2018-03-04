@@ -6,14 +6,16 @@ import IconMenu from 'material-ui/IconMenu';
 import NavigationBack from 'material-ui/svg-icons/navigation/chevron-left';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
-//import NavigationBack from 'material-ui/svg-icons/navigation/chevron-left';
 import ExpandMore from 'material-ui/svg-icons/navigation/expand-more';
+import PostList from './PostList';
+import { getCategories } from '../reducers/selectors';
 
 const CategorySelector = (props) => {
   const {onItemClick} = props;
   const styles = {
     category: {
-      marginTop: '6px'
+      marginTop: '6px',
+      width: '170px'
     },
     categoryLabel: {
       color: 'white',
@@ -55,8 +57,8 @@ class CategoryContainer extends Component {
 
   render() {
     let {categoryId = '/'} = this.props.match.params;
-    let categoryName = categoryId === '/' ? 'All' : categoryId;
     const {categories} = this.props;
+    let categoryName = categoryId === '/' ? categories[0].name : categoryId;
 
     return (
       <div>
@@ -68,6 +70,7 @@ class CategoryContainer extends Component {
             {...{categoryName, categories}}/>
           }
         />
+        <PostList {...{categoryName}} />
       </div>
     );
   }
@@ -75,7 +78,7 @@ class CategoryContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    categories: state.category
+    categories: getCategories(state)
   }
 }
 
