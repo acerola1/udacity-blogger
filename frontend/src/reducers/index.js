@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { SET_CATEGORIES, SET_POSTS, CHANGE_LOADING, SET_COMMENTS } from '../actions';
+import { SET_CATEGORIES, SET_POSTS, CHANGE_LOADING, SET_COMMENTS, POST_CHANGED } from '../actions';
 
 const defaultLoading = {
   category: false,
@@ -29,6 +29,8 @@ function post(state = [], action) {
   switch (action.type) {
     case SET_POSTS:
       return [ ...action.posts ];
+    case POST_CHANGED:
+      return [ ...state.map( p => p.id === action.post.id ? action.post : p) ];
     default:
       return state;
   }

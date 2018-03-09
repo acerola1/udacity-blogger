@@ -1,9 +1,10 @@
-import { loadCategories, loadPosts, loadComments } from '../utils/blogApi';
+import * as Api from '../utils/blogApi';
 
 export const SET_CATEGORIES = 'SET_CATEGORIES';
 export const SET_POSTS = 'SET_POSTS';
 export const SET_COMMENTS = 'SET_COMMENTS';
 export const CHANGE_LOADING = 'CHANGE_LOADING';
+export const POST_CHANGED = 'POST_CHANGED';
 
 export function setCategories(categories) {
   return {
@@ -36,7 +37,7 @@ export function changeLoading(component) {
 export function fetchCategories() {
   return dispatch => {
     dispatch(changeLoading({category: true}));
-    loadCategories().then(({ categories }) => {
+    Api.loadCategories().then(({ categories }) => {
       dispatch(setCategories(categories));
       dispatch(changeLoading({category: false}));
     });
@@ -46,7 +47,7 @@ export function fetchCategories() {
 export function fetchPosts() {
   return dispatch => {
     dispatch(changeLoading({post: true}));
-    loadPosts().then(( posts ) => {
+    Api.loadPosts().then(( posts ) => {
       dispatch(setPosts(posts));
       dispatch(changeLoading({post: false}));
     });
@@ -56,9 +57,20 @@ export function fetchPosts() {
 export function fetchComments(postId) {
   return dispatch => {
     dispatch(changeLoading({comment: true}));
-    loadComments(postId).then(( comments ) => {
+    Api.loadComments(postId).then(( comments ) => {
       dispatch(setComments(postId, comments));
       dispatch(changeLoading({comment: false}));
     });
+  }
+}
+
+export function votePost(postId, option) {
+  return dispatch => {
+    Api.votePost(postId, option).then (
+      post => {dispatch( {
+        type: POST_CHANGED,
+        post
+      })}
+    );
   }
 }

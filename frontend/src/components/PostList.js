@@ -16,6 +16,7 @@ import FontIcon from 'material-ui/FontIcon';
 import Checkbox from 'material-ui/Checkbox';
 import UpVote from 'material-ui/svg-icons/action/thumb-up';
 import DownVote from 'material-ui/svg-icons/action/thumb-down';
+import { votePost } from '../actions';
 
 const styles = {
   card: {
@@ -26,11 +27,11 @@ const styles = {
 function VoteComponent(props) {
   return (
   <div style={{float: 'right', marginTop: '-15px'}}>
-    <IconButton onClick={(e) => {e.stopPropagation(); console.log(e)}} iconStyle={{width: '20px'}} style={{verticalAlign: 'sub'}} tooltip="up vote" touch={true}>
+    <IconButton onClick={props.onUpVote} iconStyle={{width: '20px'}} style={{verticalAlign: 'sub'}} tooltip="up vote" touch={true}>
       <UpVote color={grey600} />
     </IconButton>
     <div style={{marginTop: '-5px', display: 'inline-block', color: grey600}}>{props.voteScore}</div>
-    <IconButton iconStyle={{width: '20px'}} style={{verticalAlign: 'sub'}} tooltip="down vote" touch={true}>
+    <IconButton onClick={props.onDownVote} iconStyle={{width: '20px'}} style={{verticalAlign: 'sub'}} tooltip="down vote" touch={true}>
       <DownVote color={grey600} />
     </IconButton>
   </div>
@@ -54,6 +55,11 @@ class PostList extends Component {
       <MenuItem>Delete</MenuItem>
     </IconMenu>
   );
+
+  onVote = (postId, option, event) => {
+    event.stopPropagation();
+    this.props.vote(postId, option);
+  }
 
   render () {
     return (
@@ -80,7 +86,11 @@ class PostList extends Component {
                   }
                   secondaryTextLines={2}
                 >
-                    <VoteComponent voteScore={post.voteScore}/>
+                    <VoteComponent
+                      voteScore={post.voteScore}
+                      onUpVote={(event) => this.onVote(post.id, 'upVote', event)}
+                      onDownVote={(event) => this.onVote(post.id, 'downVote', event)}
+                    />
                 </ListItem>
               </Fragment>
             )}
@@ -91,6 +101,12 @@ class PostList extends Component {
   };
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    vote: (postId, option) => dispatch(votePost(postId, option)),
+  }
+}
+
 function mapStateToProps(state, props) {
   return {
     posts: getPostsByCategory(state, props.categoryName)
@@ -99,5 +115,5 @@ function mapStateToProps(state, props) {
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(PostList)
