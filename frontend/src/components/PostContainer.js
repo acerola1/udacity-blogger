@@ -4,8 +4,55 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import BackIcon from 'material-ui/svg-icons/navigation/arrow-back';
 import { getPostById, getCategoryByPath, isLoading } from '../reducers/selectors';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import * as moment from 'moment';
+import VoteComponent from './VoteComponent';
+import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
+import FlatButton from 'material-ui/FlatButton';
+import { deletePost, votePost } from '../actions';
+
+function Post(props) {
+  let {post} = props;
+  return (
+    <Card>
+      <CardHeader
+        title={post.author}
+        subtitle={moment(+post.timestamp).fromNow()}
+        avatar="/User.png"
+      />
+      <CardTitle title={post.title}>
+
+      </CardTitle>
+      <CardText>
+        {post.body}
+      </CardText>
+      <CardActions>
+        <VoteComponent
+          voteScore={post.voteScore}
+          onUpVote={(event) => props.onVote(post.id, 'upVote', event)}
+          onDownVote={(event) => props.onVote(post.id, 'downVote', event)}
+          float={false}
+        />
+        <FlatButton label="Edit" icon={<EditIcon />} />
+        <FlatButton label="Delete" onClick={() => props.onDelete(post.id)} icon={<DeleteIcon />} />
+      </CardActions>
+    </Card>
+  )
+}
 
 class PostContainer extends Component {
+
+  onVote = (postId, option, event) => {
+    event.stopPropagation();
+    this.props.vote(postId, option);
+  }
+
+  onDelete = postId => {
+    this.props.deletePost(postId);
+    this.props.history.goBack();
+  }
+
   render() {
     return (
       <div>
@@ -17,11 +64,16 @@ class PostContainer extends Component {
             </IconButton>
           }
         />
-{this.props.postLoading || this.props.post.title}
-
-
+        {this.props.postLoading || <Post {...this.props} onVote={this.onVote} onDelete={this.onDelete}/>}
       </div>
     )
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    vote: (postId, option) => dispatch(votePost(postId, option)),
+    deletePost: (postId) => dispatch(deletePost(postId))
   }
 }
 
@@ -36,5 +88,5 @@ function mapStateToProps(state, props) {
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(PostContainer);
