@@ -74,3 +74,14 @@ export function votePost(postId, option) {
     );
   }
 }
+
+export function deletePost(postId, option) {
+  return dispatch => {
+    Api.deletePost(postId).then (
+      post => {dispatch( {
+        type: POST_CHANGED,
+        post
+      })}
+    );
+  }
+}

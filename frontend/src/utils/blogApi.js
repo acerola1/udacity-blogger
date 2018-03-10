@@ -39,3 +39,8 @@ export function votePost(postId, option) {
   return fetch(`${baseUrl}/posts/${postId}`, { method: 'POST', headers, body })
     .then(res => res.json());
 }
+
+export function deletePost(postId) {
+  return fetch(`${baseUrl}/posts/${postId}`, { method: 'DELETE', headers, body: {} })
+    .then(res => res.json());
+}

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { getPostsByCategory } from '../reducers/selectors';
+import { getPostsByCategory, isLoading } from '../reducers/selectors';
 import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
@@ -16,7 +16,8 @@ import FontIcon from 'material-ui/FontIcon';
 import Checkbox from 'material-ui/Checkbox';
 import UpVote from 'material-ui/svg-icons/action/thumb-up';
 import DownVote from 'material-ui/svg-icons/action/thumb-down';
-import { votePost } from '../actions';
+import { votePost, deletePost } from '../actions';
+import LinearProgress from 'material-ui/LinearProgress';
 
 const styles = {
   card: {
@@ -49,10 +50,10 @@ class PostList extends Component {
     </IconButton>
   );
 
-  rightIconMenu = (
+  rightIconMenu = postId => (
     <IconMenu iconButtonElement={this.iconButtonElement}>
-      <MenuItem>Edit</MenuItem>
-      <MenuItem>Delete</MenuItem>
+      <MenuItem onClick={() => console.log('edit!!!')}>Edit</MenuItem>
+      <MenuItem onClick={() => this.props.deletePost(postId)}>Delete</MenuItem>
     </IconMenu>
   );
 
@@ -67,12 +68,14 @@ class PostList extends Component {
         <Card style={styles.card}>
           <List>
             <Subheader>{`Posts in ${this.props.categoryName} category`}</Subheader>
+            {this.props.postLoading && <LinearProgress style={{margin: '15px'}} mode="indeterminate" />}
+            {this.props.posts.length == 0 && !this.props.postLoading && <div style={{margin: '15px'}}>No post in this category</div>}
             {this.props.posts.map( (post, index) =>
               <Fragment key={post.id}>
                 {index !==0 && <Divider inset={true} />}
                 <ListItem
                   leftAvatar={<Avatar src="/User.png" />}
-                  rightIconButton={this.rightIconMenu}
+                  rightIconButton={this.rightIconMenu(post.id)}
                   primaryText={post.title}
                   onClick={() => console.log("list")}
                   secondaryText={
@@ -104,12 +107,14 @@ class PostList extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     vote: (postId, option) => dispatch(votePost(postId, option)),
+    deletePost: (postId) => dispatch(deletePost(postId))
   }
 }
 
 function mapStateToProps(state, props) {
   return {
-    posts: getPostsByCategory(state, props.categoryName)
+    posts: getPostsByCategory(state, props.categoryName),
+    postLoading: isLoading(state, 'post')
   }
 }
 

@@ -3,7 +3,7 @@ export function getCategories(state) {
 }
 
 export function getPosts(state) {
-  return state.post;
+  return state.post.filter(post => post.deleted === false);
 }
 
 export function getPostsByCategory(state, categoryName) {
@@ -16,4 +16,8 @@ export function getPostsByCategory(state, categoryName) {
 export function getCategoryByPath(state, path) {
   const cat = getCategories(state).find( category => category.path === path);
   return cat;
+}
+
+export function isLoading(state, key) {
+  return state.loading[key];
 }
