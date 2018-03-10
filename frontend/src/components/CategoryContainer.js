@@ -41,7 +41,7 @@ class CategoryContainer extends Component {
 
   render() {
 
-    const {categories, category} = this.props;
+    const {categories, category, history} = this.props;
     const categoryName = category ? category.name : '';
     const categoryPath = category ? category.path : '/';
 
@@ -54,7 +54,7 @@ class CategoryContainer extends Component {
             {...{categoryName, categoryPath, categories}}/>
           }
         />
-        <PostList {...{categoryName}} />
+        <PostList {...{categoryName, categoryPath, history}} />
       </div>
     );
   }

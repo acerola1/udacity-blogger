@@ -3,6 +3,7 @@ import './App.css';
 import { Route, Switch } from 'react-router-dom';
 import CategoryContainer from './components/CategoryContainer';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import PostContainer from './components/PostContainer';
 
 class App extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class App extends Component {
         <MuiThemeProvider>
           <Switch>
             <Route exact path="/" component={CategoryContainer} />
+            <Route path="/:categoryPath/:postId" component={PostContainer} />
             <Route path="/:categoryPath" component={CategoryContainer} />
           </Switch>
         </MuiThemeProvider>

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { getPostsByCategory, isLoading } from '../reducers/selectors';
+import { getPostsByCategory, isLoading, getCategoryById } from '../reducers/selectors';
 import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
@@ -16,6 +16,8 @@ import FontIcon from 'material-ui/FontIcon';
 import Checkbox from 'material-ui/Checkbox';
 import UpVote from 'material-ui/svg-icons/action/thumb-up';
 import DownVote from 'material-ui/svg-icons/action/thumb-down';
+import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import { votePost, deletePost } from '../actions';
 import LinearProgress from 'material-ui/LinearProgress';
 
@@ -52,8 +54,8 @@ class PostList extends Component {
 
   rightIconMenu = postId => (
     <IconMenu iconButtonElement={this.iconButtonElement}>
-      <MenuItem onClick={() => console.log('edit!!!')}>Edit</MenuItem>
-      <MenuItem onClick={() => this.props.deletePost(postId)}>Delete</MenuItem>
+      <MenuItem leftIcon={<EditIcon />} onClick={() => console.log('edit!!!')}>Edit</MenuItem>
+      <MenuItem leftIcon={<DeleteIcon />}  onClick={() => this.props.deletePost(postId)}>Delete</MenuItem>
     </IconMenu>
   );
 
@@ -77,7 +79,7 @@ class PostList extends Component {
                   leftAvatar={<Avatar src="/User.png" />}
                   rightIconButton={this.rightIconMenu(post.id)}
                   primaryText={post.title}
-                  onClick={() => console.log("list")}
+                  onClick={() => this.props.history.push(`${post.category}/${post.id}`)}
                   secondaryText={
                     <p>
                       <span style={{color: darkBlack}}>
@@ -113,7 +115,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state, props) {
   return {
-    posts: getPostsByCategory(state, props.categoryName),
+    posts: getPostsByCategory(state, props.categoryPath),
     postLoading: isLoading(state, 'post')
   }
 }
