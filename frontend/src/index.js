@@ -22,7 +22,6 @@ const store = createStore(
 
 store.dispatch(fetchCategories());
 store.dispatch(fetchPosts());
-store.dispatch(fetchComments('8xf0y6ziyjabvozdd253nd'));
 
 ReactDOM.render(
   <Provider store={store}>

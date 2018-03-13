@@ -30,3 +30,7 @@ export function getCategoryById(state, id) {
 export function isLoading(state, key) {
   return state.loading[key];
 }
+
+export function getCommentsById(state, id) {
+  return state.comment.comments;
+}

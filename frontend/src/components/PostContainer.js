@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import BackIcon from 'material-ui/svg-icons/navigation/arrow-back';
-import { getPostById, getCategoryByPath, isLoading } from '../reducers/selectors';
+import { getPostById, getCategoryByPath, isLoading, getCommentsById } from '../reducers/selectors';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import * as moment from 'moment';
 import VoteComponent from './VoteComponent';
 import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import FlatButton from 'material-ui/FlatButton';
-import { deletePost, votePost } from '../actions';
+import { deletePost, votePost, fetchComments } from '../actions';
 
 function Post(props) {
   let {post} = props;
@@ -53,6 +53,10 @@ class PostContainer extends Component {
     this.props.history.goBack();
   }
 
+  componentDidMount() {
+    this.props.fetchComments(this.props.postId);
+  }
+
   render() {
     return (
       <div>
@@ -65,6 +69,9 @@ class PostContainer extends Component {
           }
         />
         {this.props.postLoading || <Post {...this.props} onVote={this.onVote} onDelete={this.onDelete}/>}
+        {this.props.commentLoading || this.props.comments.map( comment =>
+          comment.body
+        )}
       </div>
     )
   }
@@ -73,7 +80,8 @@ class PostContainer extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     vote: (postId, option) => dispatch(votePost(postId, option)),
-    deletePost: (postId) => dispatch(deletePost(postId))
+    deletePost: postId => dispatch(deletePost(postId)),
+    fetchComments: postId => dispatch(fetchComments(postId))
   }
 }
 
@@ -81,8 +89,11 @@ function mapStateToProps(state, props) {
   let {categoryPath = '/', postId} = props.match.params;
   return {
     post: getPostById(state, postId),
+    postId,
     category: getCategoryByPath(state, categoryPath),
-    postLoading: isLoading(state, 'post')
+    comments: getCommentsById(state, postId),
+    postLoading: isLoading(state, 'post'),
+    commentLoading: isLoading(state, 'comment'),
   }
 }
 

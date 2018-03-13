@@ -36,7 +36,7 @@ function post(state = [], action) {
   }
 }
 
-function comment(state = {}, action) {
+function comment(state = {comments:[]}, action) {
   switch (action.type) {
     case SET_COMMENTS:
       return {...action.payload};
