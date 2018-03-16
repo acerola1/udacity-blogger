@@ -6,7 +6,7 @@ import {grey600} from 'material-ui/styles/colors';
 
 export default function VoteComponent(props) {
   return (
-  <div style={props.float ? {float: 'right', marginTop: '-15px'} : {display: 'inline-block', verticalAlign: 'middle'}}>
+  <div style={props.float ? {float: 'right', marginTop: '-7px'} : {display: 'inline-block', verticalAlign: 'middle'}}>
     <IconButton onClick={props.onUpVote} iconStyle={{width: '20px'}} style={{verticalAlign: 'sub'}} tooltip="up vote" touch={true}>
       <UpVote />
     </IconButton>

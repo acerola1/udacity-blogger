@@ -15,6 +15,9 @@ import * as moment from 'moment';
 import FontIcon from 'material-ui/FontIcon';
 import Checkbox from 'material-ui/Checkbox';
 import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
+import ClockIcon from 'material-ui/svg-icons/action/schedule';
+import ChatIcon from 'material-ui/svg-icons/communication/chat-bubble';
+import UserIcon from 'material-ui/svg-icons/social/person';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import { votePost, deletePost } from '../actions';
 import LinearProgress from 'material-ui/LinearProgress';
@@ -23,6 +26,11 @@ import VoteComponent from './VoteComponent';
 const styles = {
   card: {
     margin: '20px'
+  },
+  icon: {
+    width: 16,
+    height: 16,
+    verticalAlign: 'top'
   }
 }
 
@@ -69,13 +77,13 @@ class PostList extends Component {
                   secondaryText={
                     <p>
                       <span style={{color: darkBlack}}>
-                        <strong>{post.author}</strong>
-                        {`, ${moment(+post.timestamp).fromNow()}, comments: ${post.commentCount}`}
+                        <strong><UserIcon style={styles.icon}/>{' '+post.author}</strong>
+                        {', '}<ClockIcon style={styles.icon}/>{` ${moment(+post.timestamp).fromNow()}, `}
+                        <ChatIcon style={styles.icon}/>{` comments: ${post.commentCount}`}
                       </span><br />
-                      {post.body}
                     </p>
                   }
-                  secondaryTextLines={2}
+                  secondaryTextLines={1}
                 >
                     <VoteComponent
                       voteScore={post.voteScore}
