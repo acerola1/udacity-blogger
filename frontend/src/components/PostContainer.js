@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import BackIcon from 'material-ui/svg-icons/navigation/arrow-back';
-import { getPostById, getCategoryByPath, isLoading, getCommentsById } from '../reducers/selectors';
+import { getPostById, getCategoryByPath, isLoading, getCommentsById, getUserByName } from '../reducers/selectors';
 import {Card, CardActions, CardHeader, CardTitle, CardText} from 'material-ui/Card';
 import * as moment from 'moment';
 import VoteComponent from './VoteComponent';
@@ -58,7 +58,7 @@ class Post extends Component {
         <CardHeader
           title={<span><UserIcon style={styles.icon}/>{` ${post.author}`}</span>}
           subtitle={<span><ClockIcon style={styles.icon}/>{` ${moment(+post.timestamp).fromNow()}`}</span>}
-          avatar="/User.png"
+          avatar={this.props.avatar}
           style={{paddingBottom: 0}}
         />
         {!this.state.editing && <CardTitle title={post.title} />}
@@ -105,7 +105,7 @@ class Post extends Component {
 
 class Comment extends Component {
 
-  state = {edit: false, editedComment: ''};
+  state = {editing: false, editedComment: ''};
 
   onVoteComment = (commentId, option, event) => {
     event.stopPropagation();
@@ -113,7 +113,7 @@ class Comment extends Component {
   }
 
   onEdit = id => {
-    this.setState({edit: true, editedComment: this.props.comment.body});
+    this.setState({editing: true, editedComment: this.props.comment.body});
   }
 
   onCommentChange = (event, editedComment) => this.setState({editedComment})
@@ -123,14 +123,14 @@ class Comment extends Component {
       body: this.state.editedComment,
       timestamp: Date.now()
     });
-    this.setState({edit: false, editedComment: ''});
+    this.setState({editing: false, editedComment: ''});
   }
 
   render() {
     const {comment} = this.props;
     return (
       <div style={{margin: '20px', position: 'relative'}} >
-        <Avatar src="/User.png" style={{verticalAlign: 'middle'}} />
+        <Avatar src={this.props.avatar} style={{verticalAlign: 'middle'}} />
         <div style={{display: 'inline-block', margin: '20px', verticalAlign: 'middle'}}>
           <span style={{display: 'block'}}><UserIcon style={styles.icon}/>{` ${comment.author}`}</span>
           <span style={{display: 'block'}}><ClockIcon style={styles.icon}/>{` ${moment(+comment.timestamp).fromNow()}`}</span>
@@ -147,17 +147,17 @@ class Comment extends Component {
         </div>
         <Card style={{display: 'flex'}} >
           <div  style={{margin: '20px'}}>
-            {!this.state.edit && comment.body}
-            {this.state.edit &&
+            {!this.state.editing && comment.body}
+            {this.state.editing &&
               <TextField floatingLabelText={'Comment'}
                 id={comment.id}
                 multiLine={true}
                 onChange={this.onCommentChange}
                 value={this.state.editedComment}
               />}
-            {this.state.edit &&
+            {this.state.editing &&
               <CardActions>
-                <FlatButton label="Cancel" onClick={() => {this.setState({edit: false})}}/>
+                <FlatButton label="Cancel" onClick={() => {this.setState({editing: false})}}/>
                 <FlatButton label="OK" onClick={this.onOk} />
               </CardActions>
             }
@@ -185,7 +185,7 @@ class PostContainer extends Component {
   }
 
   render() {
-    let {post, postLoading, commentLoading} = this.props;
+    let {post = {}, postLoading, commentLoading} = this.props;
     return (
       <div>
         <AppBar
@@ -197,7 +197,13 @@ class PostContainer extends Component {
           }
         />
         {!post && <div style={{margin: '20px'}}>Post not Found</div>}
-        {(post && !postLoading) && <Post {...this.props} onVotePost={this.onVotePost} onDelete={this.onDelete}/>}
+        {(post && !postLoading) &&
+          <Post
+            {...this.props}
+            onVotePost={this.onVotePost}
+            onDelete={this.onDelete}
+            avatar={this.props.getUser(post.author).path}
+          />}
         {(post && !commentLoading) && this.props.comments.map( comment =>
           <Comment
             key={comment.id}
@@ -205,6 +211,7 @@ class PostContainer extends Component {
             voteComment={this.props.voteComment}
             deleteComment={this.props.deleteComment}
             changeComment={this.props.changeComment}
+            avatar={this.props.getUser(comment.author).path}
           />
         )}
       </div>
@@ -233,6 +240,7 @@ function mapStateToProps(state, props) {
     comments: getCommentsById(state, postId),
     postLoading: isLoading(state, 'post'),
     commentLoading: isLoading(state, 'comment'),
+    getUser: userName => getUserByName(state, userName)
   }
 }
 

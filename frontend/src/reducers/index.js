@@ -3,19 +3,9 @@ import {
   SET_CATEGORIES, SET_POSTS, CHANGE_LOADING, SET_COMMENTS,
   POST_CHANGED, COMMENT_CHANGED
 } from '../actions';
+import initialState from './initialState';
 
-const defaultLoading = {
-  category: false,
-  post: false,
-  comment: false
-}
-
-const defaultCategory = [{
-  name: "All",
-  path: "/"
-}];
-
-function category(state = defaultCategory, action) {
+function category(state = initialState.category, action) {
   switch (action.type) {
     case SET_CATEGORIES:
       const catArray = Object.keys(action.categories).map( key => {
@@ -28,7 +18,7 @@ function category(state = defaultCategory, action) {
   }
 }
 
-function post(state = [], action) {
+function post(state = initialState.post, action) {
   switch (action.type) {
     case SET_POSTS:
       return [ ...action.posts ];
@@ -39,7 +29,7 @@ function post(state = [], action) {
   }
 }
 
-function comment(state = {comments:[]}, action) {
+function comment(state = initialState.comment, action) {
   switch (action.type) {
     case SET_COMMENTS:
       return {...action.payload};
@@ -50,10 +40,17 @@ function comment(state = {comments:[]}, action) {
   }
 }
 
-function loading(state = defaultLoading, action) {
+function loading(state = initialState.loading, action) {
   switch (action.type) {
     case CHANGE_LOADING:
       return {...state, ...action.component};
+    default:
+      return state;
+  }
+}
+
+function user(state = initialState.user, action) {
+  switch (action.type) {
     default:
       return state;
   }
@@ -63,5 +60,6 @@ export default combineReducers({
   category,
   post,
   comment,
-  loading
+  loading,
+  user
 });

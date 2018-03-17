@@ -34,3 +34,7 @@ export function isLoading(state, key) {
 export function getCommentsById(state, id) {
   return state.comment.comments.filter(c => c.deleted !== true);
 }
+
+export function getUserByName(state, name) {
+  return state.user.find(user => user.name === name);
+}

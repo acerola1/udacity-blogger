@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { getPostsByCategory, isLoading } from '../reducers/selectors';
+import { getPostsByCategory, isLoading, getUserByName } from '../reducers/selectors';
 import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
@@ -45,7 +45,7 @@ class PostList extends Component {
               <Fragment key={post.id}>
                 {index !==0 && <Divider inset={true} />}
                 <ListItem
-                  leftAvatar={<Avatar src="/User.png" />}
+                  leftAvatar={<Avatar src={this.props.getUser(post.author).path} />}
                   rightIconButton={moreMenu(post.id, this.props.deletePost)}
                   primaryText={post.title}
                   onClick={() => this.props.history.push(`${post.category}/${post.id}`)}
@@ -86,7 +86,8 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state, props) {
   return {
     posts: getPostsByCategory(state, props.categoryPath),
-    postLoading: isLoading(state, 'post')
+    postLoading: isLoading(state, 'post'),
+    getUser: userName => getUserByName(state, userName)
   }
 }
 
