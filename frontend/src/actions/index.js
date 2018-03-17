@@ -109,12 +109,23 @@ export function voteComment(commentId, option) {
   }
 }
 
-export function changeComment(commentId, commentText) {
+export function changeComment(commentId, comment) {
   return dispatch => {
-    Api.changeComment(commentId, commentText).then (
+    Api.changeComment(commentId, comment).then (
       comment => {dispatch( {
         type: COMMENT_CHANGED,
         comment
+      })}
+    );
+  }
+}
+
+export function changePost(postId, post) {
+  return dispatch => {
+    Api.changePost(postId, post).then (
+      post => {dispatch( {
+        type: POST_CHANGED,
+        post
       })}
     );
   }

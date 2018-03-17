@@ -12,7 +12,7 @@ import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import ClockIcon from 'material-ui/svg-icons/action/schedule';
 import UserIcon from 'material-ui/svg-icons/social/person';
 import FlatButton from 'material-ui/FlatButton';
-import { deletePost, votePost, fetchComments, deleteComment, voteComment, changeComment } from '../actions';
+import { deletePost, votePost, fetchComments, deleteComment, voteComment, changeComment, changePost } from '../actions';
 import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 import moreMenu from './MoreMenu';
@@ -28,33 +28,79 @@ const styles = {
   }
 }
 
-function Post(props) {
-  let {post} = props;
-  return (
-    <Card style={styles.card}>
-      <CardHeader
-        title={<span><UserIcon style={styles.icon}/>{` ${post.author}`}</span>}
-        subtitle={<span><ClockIcon style={styles.icon}/>{` ${moment(+post.timestamp).fromNow()}`}</span>}
-        avatar="/User.png"
-      />
-      <CardTitle style={{paddingTop: 0, paddingBottom: 0}} title={post.title}>
+class Post extends Component {
+  state = {
+    editing: false,
+    title: '',
+    body: ''
+  }
 
-      </CardTitle>
-      <CardText>
-        {post.body}
-      </CardText>
-      <CardActions>
-        <VoteComponent
-          voteScore={post.voteScore}
-          onUpVote={(event) => props.onVotePost(post.id, 'upVote', event)}
-          onDownVote={(event) => props.onVotePost(post.id, 'downVote', event)}
-          float={false}
+  onEdit = id => {
+    let {post} = this.props;
+    this.setState({editing: true, title: post.title, body: post.body});
+  }
+
+  onChange = (event, text, name) => this.setState({[name]: text})
+
+  onOk = event => {
+    this.props.changePost(this.props.post.id, {
+      title: this.state.title,
+      body: this.state.body,
+      timestamp: Date.now()
+    });
+    this.setState({editing: false});
+  }
+
+  render() {
+    let {post} = this.props;
+    return (
+      <Card style={styles.card}>
+        <CardHeader
+          title={<span><UserIcon style={styles.icon}/>{` ${post.author}`}</span>}
+          subtitle={<span><ClockIcon style={styles.icon}/>{` ${moment(+post.timestamp).fromNow()}`}</span>}
+          avatar="/User.png"
+          style={{paddingBottom: 0}}
         />
-        <FlatButton label="Edit" icon={<EditIcon />} />
-        <FlatButton label="Delete" onClick={() => props.onDelete(post.id)} icon={<DeleteIcon />} />
-      </CardActions>
-    </Card>
-  )
+        {!this.state.editing && <CardTitle title={post.title} />}
+        <CardText style={{paddingTop: 0}}>
+          {!this.state.editing && post.body}
+          {this.state.editing &&
+            <div>
+              <TextField floatingLabelText={'Title'}
+                id={post.id+'_title'}
+                onChange={(event, text) => this.onChange(event, text, 'title')}
+                value={this.state.title}
+                style={{display: 'block', width: '100%'}}
+              />
+              <TextField floatingLabelText={'Body'}
+                id={post.id+'_body'}
+                multiLine={true}
+                onChange={(event, text) => this.onChange(event, text, 'body')}
+                value={this.state.body}
+                style={{display: 'block', width: '100%'}}
+              />
+            </div>
+          }
+        </CardText>
+        {!this.state.editing &&
+          <CardActions>
+            <VoteComponent
+              voteScore={post.voteScore}
+              onUpVote={(event) => this.props.onVotePost(post.id, 'upVote', event)}
+              onDownVote={(event) => this.props.onVotePost(post.id, 'downVote', event)}
+              float={false}
+            />
+            <FlatButton label="Edit" onClick={this.onEdit} icon={<EditIcon />} />
+            <FlatButton label="Delete" onClick={() => this.props.onDelete(post.id)} icon={<DeleteIcon />} />
+          </CardActions>}
+        {this.state.editing &&
+          <CardActions>
+            <FlatButton label="Cancel" onClick={this.onEdit} onClick={() => {this.setState({editing: false})}}/>
+            <FlatButton label="OK" onClick={this.onOk} />
+          </CardActions>}
+      </Card>
+    )
+  }
 }
 
 class Comment extends Component {
@@ -73,7 +119,10 @@ class Comment extends Component {
   onCommentChange = (event, editedComment) => this.setState({editedComment})
 
   onOk = event => {
-    this.props.changeComment(this.props.comment.id, {body: this.state.editedComment});
+    this.props.changeComment(this.props.comment.id, {
+      body: this.state.editedComment,
+      timestamp: Date.now()
+    });
     this.setState({edit: false, editedComment: ''});
   }
 
@@ -101,11 +150,11 @@ class Comment extends Component {
             {!this.state.edit && comment.body}
             {this.state.edit &&
               <TextField floatingLabelText={'Comment'}
-              id={comment.id}
-              multiLine={true}
-              onChange={this.onCommentChange}
-              value={this.state.editedComment}
-            />}
+                id={comment.id}
+                multiLine={true}
+                onChange={this.onCommentChange}
+                value={this.state.editedComment}
+              />}
             {this.state.edit &&
               <CardActions>
                 <FlatButton label="Cancel" onClick={() => {this.setState({edit: false})}}/>
@@ -136,6 +185,7 @@ class PostContainer extends Component {
   }
 
   render() {
+    let {post, postLoading, commentLoading} = this.props;
     return (
       <div>
         <AppBar
@@ -146,8 +196,9 @@ class PostContainer extends Component {
             </IconButton>
           }
         />
-        {this.props.postLoading || <Post {...this.props} onVotePost={this.onVotePost} onDelete={this.onDelete}/>}
-        {this.props.commentLoading || this.props.comments.map( comment =>
+        {!post && <div style={{margin: '20px'}}>Post not Found</div>}
+        {(post && !postLoading) && <Post {...this.props} onVotePost={this.onVotePost} onDelete={this.onDelete}/>}
+        {(post && !commentLoading) && this.props.comments.map( comment =>
           <Comment
             key={comment.id}
             comment={comment}
@@ -168,7 +219,8 @@ function mapDispatchToProps(dispatch) {
     fetchComments: postId => dispatch(fetchComments(postId)),
     deleteComment: commentId => dispatch(deleteComment(commentId)),
     voteComment: (commentId, option) => dispatch(voteComment(commentId, option)),
-    changeComment: (commentId, comment) => dispatch(changeComment(commentId, comment))
+    changeComment: (commentId, comment) => dispatch(changeComment(commentId, comment)),
+    changePost: (postId, post) => dispatch(changePost(postId, post))
   }
 }
 

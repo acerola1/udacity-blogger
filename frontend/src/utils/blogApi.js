@@ -63,3 +63,10 @@ export function changeComment(commentId, comment) {
   return fetch(`${baseUrl}/comments/${commentId}`, { method: 'PUT', headers, body })
     .then(res => res.json());
 }
+
+export function changePost(postId, post) {
+  const body = JSON.stringify(post);
+
+  return fetch(`${baseUrl}/posts/${postId}`, { method: 'PUT', headers, body })
+    .then(res => res.json());
+}
