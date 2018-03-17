@@ -32,5 +32,5 @@ export function isLoading(state, key) {
 }
 
 export function getCommentsById(state, id) {
-  return state.comment.comments;
+  return state.comment.comments.filter(c => c.deleted !== true);
 }

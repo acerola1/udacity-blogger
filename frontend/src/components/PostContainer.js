@@ -4,7 +4,7 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import BackIcon from 'material-ui/svg-icons/navigation/arrow-back';
 import { getPostById, getCategoryByPath, isLoading, getCommentsById } from '../reducers/selectors';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {Card, CardActions, CardHeader, CardTitle, CardText} from 'material-ui/Card';
 import * as moment from 'moment';
 import VoteComponent from './VoteComponent';
 import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
@@ -12,8 +12,9 @@ import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import ClockIcon from 'material-ui/svg-icons/action/schedule';
 import UserIcon from 'material-ui/svg-icons/social/person';
 import FlatButton from 'material-ui/FlatButton';
-import { deletePost, votePost, fetchComments } from '../actions';
+import { deletePost, votePost, fetchComments, deleteComment } from '../actions';
 import Avatar from 'material-ui/Avatar';
+import moreMenu from './MoreMenu';
 
 const styles = {
   card: {
@@ -84,12 +85,18 @@ class PostContainer extends Component {
         />
         {this.props.postLoading || <Post {...this.props} onVote={this.onVote} onDelete={this.onDelete}/>}
         {this.props.commentLoading || this.props.comments.map( comment =>
-          <div style={{margin: '20px'}} >
+          <div key={comment.id} style={{margin: '20px'}} >
             <Avatar src="/User.png" style={{verticalAlign: 'middle'}} />
             <div style={{display: 'inline-block', margin: '20px', verticalAlign: 'middle'}}>
               <span style={{display: 'block'}}><UserIcon style={styles.icon}/>{` ${comment.author}`}</span>
               <span style={{display: 'block'}}><ClockIcon style={styles.icon}/>{` ${moment(+comment.timestamp).fromNow()}`}</span>
             </div>
+            <VoteComponent
+              float={false}
+              style={{verticalAlign: 'baseline'}}
+              voteScore={comment.voteScore}
+            />
+            {moreMenu(comment.id, this.props.deleteComment)}
             <Card style={{display: 'flex'}} >
               <div  style={{margin: '20px'}}>
                 {comment.body}
@@ -106,7 +113,8 @@ function mapDispatchToProps(dispatch) {
   return {
     vote: (postId, option) => dispatch(votePost(postId, option)),
     deletePost: postId => dispatch(deletePost(postId)),
-    fetchComments: postId => dispatch(fetchComments(postId))
+    fetchComments: postId => dispatch(fetchComments(postId)),
+    deleteComment: commentId => dispatch(deleteComment(commentId))
   }
 }
 

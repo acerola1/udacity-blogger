@@ -5,6 +5,7 @@ export const SET_POSTS = 'SET_POSTS';
 export const SET_COMMENTS = 'SET_COMMENTS';
 export const CHANGE_LOADING = 'CHANGE_LOADING';
 export const POST_CHANGED = 'POST_CHANGED';
+export const COMMENT_CHANGED = 'COMMENT_CHANGED';
 
 export function setCategories(categories) {
   return {
@@ -81,6 +82,17 @@ export function deletePost(postId, option) {
       post => {dispatch( {
         type: POST_CHANGED,
         post
+      })}
+    );
+  }
+}
+
+export function deleteComment(commentId, option) {
+  return dispatch => {
+    Api.deleteComment(commentId).then (
+      comment => {dispatch( {
+        type: COMMENT_CHANGED,
+        comment
       })}
     );
   }

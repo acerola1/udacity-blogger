@@ -44,3 +44,8 @@ export function deletePost(postId) {
   return fetch(`${baseUrl}/posts/${postId}`, { method: 'DELETE', headers, body: {} })
     .then(res => res.json());
 }
+
+export function deleteComment(commentId) {
+  return fetch(`${baseUrl}/comments/${commentId}`, { method: 'DELETE', headers, body: {} })
+    .then(res => res.json());
+}
