@@ -15,7 +15,7 @@ import FlatButton from 'material-ui/FlatButton';
 import { deletePost, votePost, fetchComments, deleteComment, voteComment, changeComment, changePost } from '../actions';
 import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
-import moreMenu from './MoreMenu';
+import MoreMenu from './MoreMenu';
 import AvatarMenu from './AvatarMenu';
 
 const styles = {
@@ -144,7 +144,7 @@ class Comment extends Component {
             onUpVote={(event) => this.onVoteComment(comment.id, 'upVote', event)}
             onDownVote={(event) => this.onVoteComment(comment.id, 'downVote', event)}
           />
-          {moreMenu(comment.id, this.props.deleteComment, this.onEdit)}
+          {<MoreMenu id={comment.id} onDelete={this.props.deleteComment} onEdit={this.onEdit} />}
         </div>
         <Card style={{display: 'flex'}} >
           <div  style={{margin: '20px'}}>

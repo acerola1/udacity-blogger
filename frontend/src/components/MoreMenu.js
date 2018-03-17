@@ -7,13 +7,8 @@ import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import {grey400} from 'material-ui/styles/colors';
 
-/**
- * it is not a proper component because it did not work with ListItem
- * rightIconButton properties that way
- * @param {*} id
- * @param {*} onDelete
- */
-export default function moreMenu(id, onDelete, onEdit) {
+export default function MoreMenu(props) {
+  const {onEdit, onDelete, id, ...rest} = props
   const iconButtonElement = (
     <IconButton
       touch={true}
@@ -24,7 +19,7 @@ export default function moreMenu(id, onDelete, onEdit) {
     </IconButton>
   );
   return (
-    <IconMenu iconButtonElement={iconButtonElement}>
+    <IconMenu {...rest} iconButtonElement={iconButtonElement}>
       <MenuItem leftIcon={<EditIcon />} onClick={() => onEdit(id)}>Edit</MenuItem>
       <MenuItem leftIcon={<DeleteIcon />}  onClick={() => onDelete(id)}>Delete</MenuItem>
     </IconMenu>

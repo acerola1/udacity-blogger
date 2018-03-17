@@ -14,7 +14,7 @@ import UserIcon from 'material-ui/svg-icons/social/person';
 import { votePost, deletePost } from '../actions';
 import LinearProgress from 'material-ui/LinearProgress';
 import VoteComponent from './VoteComponent';
-import moreMenu from './MoreMenu';
+import MoreMenu from './MoreMenu';
 
 const styles = {
   card: {
@@ -46,7 +46,7 @@ class PostList extends Component {
                 {index !==0 && <Divider inset={true} />}
                 <ListItem
                   leftAvatar={<Avatar src={this.props.getUser(post.author).path} />}
-                  rightIconButton={moreMenu(post.id, this.props.deletePost)}
+                  rightIconButton={<MoreMenu id={post.id} onDelete={this.props.deletePost} />}
                   primaryText={post.title}
                   onClick={() => this.props.history.push(`${post.category}/${post.id}`)}
                   secondaryText={
