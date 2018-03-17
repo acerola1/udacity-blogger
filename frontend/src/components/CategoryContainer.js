@@ -5,6 +5,7 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import PostList from './PostList';
 import { getCategories, getCategoryByPath } from '../reducers/selectors';
+import AvatarMenu from './AvatarMenu';
 
 const CategorySelector = (props) => {
   const styles = {
@@ -52,6 +53,9 @@ class CategoryContainer extends Component {
           iconElementLeft={<CategorySelector
             onChange={(e, i) => this.props.history.push(categories[i].path)}
             {...{categoryName, categoryPath, categories}}/>
+          }
+          iconElementRight={
+            <AvatarMenu />
           }
         />
         <PostList {...{categoryName, categoryPath, history}} />

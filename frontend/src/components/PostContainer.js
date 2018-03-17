@@ -16,6 +16,7 @@ import { deletePost, votePost, fetchComments, deleteComment, voteComment, change
 import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 import moreMenu from './MoreMenu';
+import AvatarMenu from './AvatarMenu';
 
 const styles = {
   card: {
@@ -95,7 +96,7 @@ class Post extends Component {
           </CardActions>}
         {this.state.editing &&
           <CardActions>
-            <FlatButton label="Cancel" onClick={this.onEdit} onClick={() => {this.setState({editing: false})}}/>
+            <FlatButton label="Cancel" onClick={() => {this.setState({editing: false})}}/>
             <FlatButton label="OK" onClick={this.onOk} />
           </CardActions>}
       </Card>
@@ -194,6 +195,9 @@ class PostContainer extends Component {
             <IconButton>
               <BackIcon onClick={(e, i) => this.props.history.goBack()}/>
             </IconButton>
+          }
+          iconElementRight={
+            <AvatarMenu />
           }
         />
         {!post && <div style={{margin: '20px'}}>Post not Found</div>}

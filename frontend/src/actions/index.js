@@ -6,6 +6,7 @@ export const SET_COMMENTS = 'SET_COMMENTS';
 export const CHANGE_LOADING = 'CHANGE_LOADING';
 export const POST_CHANGED = 'POST_CHANGED';
 export const COMMENT_CHANGED = 'COMMENT_CHANGED';
+export const SELECT_USER = 'SELECT_USER';
 
 export function setCategories(categories) {
   return {
@@ -32,6 +33,13 @@ export function changeLoading(component) {
   return {
     type: CHANGE_LOADING,
     component
+  };
+}
+
+export function setSelectedUser(selectedUser) {
+  return {
+    type: SELECT_USER,
+    selectedUser
   };
 }
 

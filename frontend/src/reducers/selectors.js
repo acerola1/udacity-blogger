@@ -35,6 +35,14 @@ export function getCommentsById(state, id) {
   return state.comment.comments.filter(c => c.deleted !== true);
 }
 
+export function getUsers(state) {
+  return state.user.users;
+}
+
 export function getUserByName(state, name) {
-  return state.user.find(user => user.name === name);
+  return getUsers(state).find(user => user.name === name);
+}
+
+export function getSelectedUser(state) {
+  return getUserByName(state, state.user.selectedUser);
 }

@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import {
   SET_CATEGORIES, SET_POSTS, CHANGE_LOADING, SET_COMMENTS,
-  POST_CHANGED, COMMENT_CHANGED
+  POST_CHANGED, COMMENT_CHANGED, SELECT_USER
 } from '../actions';
 import initialState from './initialState';
 
@@ -51,6 +51,8 @@ function loading(state = initialState.loading, action) {
 
 function user(state = initialState.user, action) {
   switch (action.type) {
+    case SELECT_USER:
+      return {...state, selectedUser: action.selectedUser};
     default:
       return state;
   }

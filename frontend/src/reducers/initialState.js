@@ -12,10 +12,16 @@ const initialState = {
     post: false,
     comment: false
   },
-  user: [
-    {name: 'thingone', path: '/user4.jpg'},
-    {name: 'thingtwo', path: '/user2.jpg'}
-  ]
+  user: {
+    selectedUser: 'thingone',
+    users: [
+    {name: 'thingone', path: '/user1.jpg'},
+    {name: 'thingtwo', path: '/user2.jpg'},
+    {name: 'james', path: '/user3.jpg'},
+    {name: 'agnes', path: '/user4.jpg'},
+    {name: 'esther', path: '/user5.jpg'},
+    {name: 'paul', path: '/user6.jpg'}
+  ]}
 }
 
 export default initialState;
