@@ -12,7 +12,7 @@ import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import ClockIcon from 'material-ui/svg-icons/action/schedule';
 import UserIcon from 'material-ui/svg-icons/social/person';
 import FlatButton from 'material-ui/FlatButton';
-import { deletePost, votePost, fetchComments, deleteComment } from '../actions';
+import { deletePost, votePost, fetchComments, deleteComment, voteComment } from '../actions';
 import Avatar from 'material-ui/Avatar';
 import moreMenu from './MoreMenu';
 
@@ -45,8 +45,8 @@ function Post(props) {
       <CardActions>
         <VoteComponent
           voteScore={post.voteScore}
-          onUpVote={(event) => props.onVote(post.id, 'upVote', event)}
-          onDownVote={(event) => props.onVote(post.id, 'downVote', event)}
+          onUpVote={(event) => props.onVotePost(post.id, 'upVote', event)}
+          onDownVote={(event) => props.onVotePost(post.id, 'downVote', event)}
           float={false}
         />
         <FlatButton label="Edit" icon={<EditIcon />} />
@@ -58,9 +58,14 @@ function Post(props) {
 
 class PostContainer extends Component {
 
-  onVote = (postId, option, event) => {
+  onVotePost = (postId, option, event) => {
     event.stopPropagation();
-    this.props.vote(postId, option);
+    this.props.votePost(postId, option);
+  }
+
+  onVoteComment = (commentId, option, event) => {
+    event.stopPropagation();
+    this.props.voteComment(commentId, option);
   }
 
   onDelete = postId => {
@@ -83,7 +88,7 @@ class PostContainer extends Component {
             </IconButton>
           }
         />
-        {this.props.postLoading || <Post {...this.props} onVote={this.onVote} onDelete={this.onDelete}/>}
+        {this.props.postLoading || <Post {...this.props} onVotePost={this.onVotePost} onDelete={this.onDelete}/>}
         {this.props.commentLoading || this.props.comments.map( comment =>
           <div key={comment.id} style={{margin: '20px'}} >
             <Avatar src="/User.png" style={{verticalAlign: 'middle'}} />
@@ -95,6 +100,8 @@ class PostContainer extends Component {
               float={false}
               style={{verticalAlign: 'baseline'}}
               voteScore={comment.voteScore}
+              onUpVote={(event) => this.onVoteComment(comment.id, 'upVote', event)}
+              onDownVote={(event) => this.onVoteComment(comment.id, 'downVote', event)}
             />
             {moreMenu(comment.id, this.props.deleteComment)}
             <Card style={{display: 'flex'}} >
@@ -111,10 +118,11 @@ class PostContainer extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    vote: (postId, option) => dispatch(votePost(postId, option)),
+    votePost: (postId, option) => dispatch(votePost(postId, option)),
     deletePost: postId => dispatch(deletePost(postId)),
     fetchComments: postId => dispatch(fetchComments(postId)),
-    deleteComment: commentId => dispatch(deleteComment(commentId))
+    deleteComment: commentId => dispatch(deleteComment(commentId)),
+    voteComment: (commentId, option) => dispatch(voteComment(commentId, option))
   }
 }
 

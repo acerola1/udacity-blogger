@@ -76,7 +76,7 @@ export function votePost(postId, option) {
   }
 }
 
-export function deletePost(postId, option) {
+export function deletePost(postId) {
   return dispatch => {
     Api.deletePost(postId).then (
       post => {dispatch( {
@@ -87,9 +87,20 @@ export function deletePost(postId, option) {
   }
 }
 
-export function deleteComment(commentId, option) {
+export function deleteComment(commentId) {
   return dispatch => {
     Api.deleteComment(commentId).then (
+      comment => {dispatch( {
+        type: COMMENT_CHANGED,
+        comment
+      })}
+    );
+  }
+}
+
+export function voteComment(commentId, option) {
+  return dispatch => {
+    Api.voteComment(commentId, option).then (
       comment => {dispatch( {
         type: COMMENT_CHANGED,
         comment

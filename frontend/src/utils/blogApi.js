@@ -49,3 +49,10 @@ export function deleteComment(commentId) {
   return fetch(`${baseUrl}/comments/${commentId}`, { method: 'DELETE', headers, body: {} })
     .then(res => res.json());
 }
+
+export function voteComment(commentId, option) {
+  const body = JSON.stringify({ option });
+
+  return fetch(`${baseUrl}/comments/${commentId}`, { method: 'POST', headers, body })
+    .then(res => res.json());
+}
