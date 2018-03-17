@@ -56,3 +56,10 @@ export function voteComment(commentId, option) {
   return fetch(`${baseUrl}/comments/${commentId}`, { method: 'POST', headers, body })
     .then(res => res.json());
 }
+
+export function changeComment(commentId, comment) {
+  const body = JSON.stringify(comment);
+
+  return fetch(`${baseUrl}/comments/${commentId}`, { method: 'PUT', headers, body })
+    .then(res => res.json());
+}

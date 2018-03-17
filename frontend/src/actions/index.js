@@ -108,3 +108,14 @@ export function voteComment(commentId, option) {
     );
   }
 }
+
+export function changeComment(commentId, commentText) {
+  return dispatch => {
+    Api.changeComment(commentId, commentText).then (
+      comment => {dispatch( {
+        type: COMMENT_CHANGED,
+        comment
+      })}
+    );
+  }
+}

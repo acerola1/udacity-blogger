@@ -12,8 +12,9 @@ import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import ClockIcon from 'material-ui/svg-icons/action/schedule';
 import UserIcon from 'material-ui/svg-icons/social/person';
 import FlatButton from 'material-ui/FlatButton';
-import { deletePost, votePost, fetchComments, deleteComment, voteComment } from '../actions';
+import { deletePost, votePost, fetchComments, deleteComment, voteComment, changeComment } from '../actions';
 import Avatar from 'material-ui/Avatar';
+import TextField from 'material-ui/TextField';
 import moreMenu from './MoreMenu';
 
 const styles = {
@@ -56,16 +57,73 @@ function Post(props) {
   )
 }
 
+class Comment extends Component {
+
+  state = {edit: false, editedComment: ''};
+
+  onVoteComment = (commentId, option, event) => {
+    event.stopPropagation();
+    this.props.voteComment(commentId, option);
+  }
+
+  onEdit = id => {
+    this.setState({edit: true, editedComment: this.props.comment.body});
+  }
+
+  onCommentChange = (event, editedComment) => this.setState({editedComment})
+
+  onOk = event => {
+    this.props.changeComment(this.props.comment.id, {body: this.state.editedComment});
+    this.setState({edit: false, editedComment: ''});
+  }
+
+  render() {
+    const {comment} = this.props;
+    return (
+      <div style={{margin: '20px', position: 'relative'}} >
+        <Avatar src="/User.png" style={{verticalAlign: 'middle'}} />
+        <div style={{display: 'inline-block', margin: '20px', verticalAlign: 'middle'}}>
+          <span style={{display: 'block'}}><UserIcon style={styles.icon}/>{` ${comment.author}`}</span>
+          <span style={{display: 'block'}}><ClockIcon style={styles.icon}/>{` ${moment(+comment.timestamp).fromNow()}`}</span>
+        </div>
+        <div style={{display: 'block', position: 'absolute', top: '12px', right: '4px'}} >
+          <VoteComponent
+            float={false}
+            style={{verticalAlign: 'top'}}
+            voteScore={comment.voteScore}
+            onUpVote={(event) => this.onVoteComment(comment.id, 'upVote', event)}
+            onDownVote={(event) => this.onVoteComment(comment.id, 'downVote', event)}
+          />
+          {moreMenu(comment.id, this.props.deleteComment, this.onEdit)}
+        </div>
+        <Card style={{display: 'flex'}} >
+          <div  style={{margin: '20px'}}>
+            {!this.state.edit && comment.body}
+            {this.state.edit &&
+              <TextField floatingLabelText={'Comment'}
+              id={comment.id}
+              multiLine={true}
+              onChange={this.onCommentChange}
+              value={this.state.editedComment}
+            />}
+            {this.state.edit &&
+              <CardActions>
+                <FlatButton label="Cancel" onClick={() => {this.setState({edit: false})}}/>
+                <FlatButton label="OK" onClick={this.onOk} />
+              </CardActions>
+            }
+          </div>
+        </Card>
+      </div>
+    );
+  }
+}
+
 class PostContainer extends Component {
 
   onVotePost = (postId, option, event) => {
     event.stopPropagation();
     this.props.votePost(postId, option);
-  }
-
-  onVoteComment = (commentId, option, event) => {
-    event.stopPropagation();
-    this.props.voteComment(commentId, option);
   }
 
   onDelete = postId => {
@@ -90,26 +148,13 @@ class PostContainer extends Component {
         />
         {this.props.postLoading || <Post {...this.props} onVotePost={this.onVotePost} onDelete={this.onDelete}/>}
         {this.props.commentLoading || this.props.comments.map( comment =>
-          <div key={comment.id} style={{margin: '20px'}} >
-            <Avatar src="/User.png" style={{verticalAlign: 'middle'}} />
-            <div style={{display: 'inline-block', margin: '20px', verticalAlign: 'middle'}}>
-              <span style={{display: 'block'}}><UserIcon style={styles.icon}/>{` ${comment.author}`}</span>
-              <span style={{display: 'block'}}><ClockIcon style={styles.icon}/>{` ${moment(+comment.timestamp).fromNow()}`}</span>
-            </div>
-            <VoteComponent
-              float={false}
-              style={{verticalAlign: 'baseline'}}
-              voteScore={comment.voteScore}
-              onUpVote={(event) => this.onVoteComment(comment.id, 'upVote', event)}
-              onDownVote={(event) => this.onVoteComment(comment.id, 'downVote', event)}
-            />
-            {moreMenu(comment.id, this.props.deleteComment)}
-            <Card style={{display: 'flex'}} >
-              <div  style={{margin: '20px'}}>
-                {comment.body}
-              </div>
-            </Card>
-          </div>
+          <Comment
+            key={comment.id}
+            comment={comment}
+            voteComment={this.props.voteComment}
+            deleteComment={this.props.deleteComment}
+            changeComment={this.props.changeComment}
+          />
         )}
       </div>
     )
@@ -122,7 +167,8 @@ function mapDispatchToProps(dispatch) {
     deletePost: postId => dispatch(deletePost(postId)),
     fetchComments: postId => dispatch(fetchComments(postId)),
     deleteComment: commentId => dispatch(deleteComment(commentId)),
-    voteComment: (commentId, option) => dispatch(voteComment(commentId, option))
+    voteComment: (commentId, option) => dispatch(voteComment(commentId, option)),
+    changeComment: (commentId, comment) => dispatch(changeComment(commentId, comment))
   }
 }
 
