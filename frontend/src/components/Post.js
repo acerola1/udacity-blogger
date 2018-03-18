@@ -8,6 +8,8 @@ import ClockIcon from 'material-ui/svg-icons/action/schedule';
 import UserIcon from 'material-ui/svg-icons/social/person';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 const styles = {
   card: {
@@ -22,9 +24,10 @@ const styles = {
 
 class Post extends Component {
   state = {
-    editing: this.props.editMode ? this.props.editMode : false,
+    editing: this.props.newMode ? this.props.newMode : false,
     title: '',
     body: '',
+    category: this.props.post.category,
     titleError: '',
     bodyError: ''
   }
@@ -41,7 +44,8 @@ class Post extends Component {
       this.props.changePost(this.props.post.id, {
         title: this.state.title,
         body: this.state.body,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        category: this.state.category
       });
       this.setState({editing: false});
     }
@@ -91,6 +95,16 @@ class Post extends Component {
                 style={{display: 'block', width: '100%'}}
                 errorText={this.state.bodyError}
               />
+              {this.props.newMode && <SelectField
+                floatingLabelText="Category"
+                value={this.state.category}
+                onChange={(event, index, value) => this.onChange(event, value, 'category')}
+              >
+                {this.props.categories.map( cat => (
+                  <MenuItem key={cat.path} value={cat.path} primaryText={cat.name} />))}
+              </SelectField>
+
+              }
             </div>
           }
         </CardText>

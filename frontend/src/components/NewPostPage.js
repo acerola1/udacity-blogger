@@ -18,7 +18,6 @@ function NewPostPage(props) {
     post.id = uuid();
     post.author = props.selectedUser.name;
     post.commentCount = 0;
-    post.category='react';
     props.createPost(post, () => props.history.push(`/${post.category}/${post.id}`))
 
     console.log(post)
@@ -27,7 +26,8 @@ function NewPostPage(props) {
   let post = {
     id: 'new',
     author: props.selectedUser.name,
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    category: 'react'
   }
 
   return (
@@ -46,9 +46,10 @@ function NewPostPage(props) {
       <Post
         post={post}
         avatar={props.selectedUser.path}
-        editMode={true}
+        newMode={true}
         onCancel={() => goBack()}
         changePost={newPost}
+        categories={props.categories}
       />
     </div>
   )
@@ -62,7 +63,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state, props) {
   return {
-    categories: getCategories(state),
+    categories: getCategories(state).filter( cat => cat.name !== 'All'),
     selectedUser: getSelectedUser(state)
   }
 }
