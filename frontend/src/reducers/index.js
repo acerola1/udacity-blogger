@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import {
   SET_CATEGORIES, SET_POSTS, CHANGE_LOADING, SET_COMMENTS,
-  POST_CHANGED, COMMENT_CHANGED, SELECT_USER, ADD_COMMENT
+  POST_CHANGED, COMMENT_CHANGED, SELECT_USER, ADD_COMMENT, SET_SORTING
 } from '../actions';
 import initialState from './initialState';
 
@@ -42,10 +42,12 @@ function comment(state = initialState.comment, action) {
   }
 }
 
-function loading(state = initialState.loading, action) {
+function setting(state = initialState.setting, action) {
   switch (action.type) {
     case CHANGE_LOADING:
-      return {...state, ...action.component};
+      return {...state, loading: {...state.loading, ...action.component}};
+    case SET_SORTING:
+      return {...state, sorting: action.sorting};
     default:
       return state;
   }
@@ -64,6 +66,6 @@ export default combineReducers({
   category,
   post,
   comment,
-  loading,
+  setting,
   user
 });

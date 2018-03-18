@@ -8,6 +8,7 @@ export const POST_CHANGED = 'POST_CHANGED';
 export const COMMENT_CHANGED = 'COMMENT_CHANGED';
 export const SELECT_USER = 'SELECT_USER';
 export const ADD_COMMENT = 'ADD_COMMENT';
+export const SET_SORTING = 'SET_SORTING';
 
 export function setCategories(categories) {
   return {
@@ -41,6 +42,13 @@ export function setSelectedUser(selectedUser) {
   return {
     type: SELECT_USER,
     selectedUser
+  };
+}
+
+export function setSorting(sorting) {
+  return {
+    type: SET_SORTING,
+    sorting
   };
 }
 

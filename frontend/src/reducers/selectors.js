@@ -1,3 +1,5 @@
+import * as cons from '../utils/constants';
+
 export function getCategories(state) {
   return state.category;
 }
@@ -11,10 +13,26 @@ export function getPostById(state, postId) {
 }
 
 export function getPostsByCategory(state, categoryPath) {
-  if (categoryPath === '/') {
-    return getPosts(state);
+  let sorting = getSorting(state);
+  let posts = getPosts(state).concat();
+  let getComparator = (sorting) => {
+    switch (sorting) {
+      case cons.SCORE_DESC:
+        return (a, b) => b.voteScore - a.voteScore;
+      case cons.SCORE_ASC:
+        return (a, b) => a.voteScore - b.voteScore;
+      case cons.TIME_DESC:
+        return (a, b) => b.timestamp - a.timestamp;
+      case cons.TIME_ASC:
+        return (a, b) => a.timestamp - b.timestamp;
+    }
   }
-  return getPosts(state).filter( post => post.category === categoryPath);
+  posts.sort(getComparator(sorting));
+
+  if (categoryPath === '/') {
+    return posts;
+  }
+  return posts.filter( post => post.category === categoryPath);
 }
 
 export function getCategoryByPath(state, path) {
@@ -28,7 +46,7 @@ export function getCategoryById(state, id) {
 }
 
 export function isLoading(state, key) {
-  return state.loading[key];
+  return state.setting.loading[key];
 }
 
 export function getCommentsById(state, id) {
@@ -45,4 +63,8 @@ export function getUserByName(state, name) {
 
 export function getSelectedUser(state) {
   return getUserByName(state, state.user.selectedUser);
+}
+
+export function getSorting(state) {
+  return state.setting.sorting;
 }

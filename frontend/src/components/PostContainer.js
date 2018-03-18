@@ -32,7 +32,7 @@ class PostContainer extends Component {
   }
 
   render() {
-    let {post = {}, postLoading, commentLoading} = this.props;
+    let {post, postLoading, commentLoading} = this.props;
     return (
       <div>
         <AppBar
@@ -63,7 +63,7 @@ class PostContainer extends Component {
             <Divider inset={true} />
           </Fragment>
         )}
-        <NewComment post={post}/>
+        {post && <NewComment post={post}/>}
       </div>
     )
   }

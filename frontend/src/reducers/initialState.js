@@ -1,3 +1,5 @@
+import * as cons from '../utils/constants'
+
 const initialState = {
   category: [{
     name: "All",
@@ -7,10 +9,13 @@ const initialState = {
   comment: {
     comments: []
   },
-  loading: {
-    category: false,
-    post: false,
-    comment: false
+  setting: {
+    sorting: cons.SCORE_DESC,
+    loading: {
+      category: false,
+      post: false,
+      comment: false
+    }
   },
   user: {
     selectedUser: 'thingone',

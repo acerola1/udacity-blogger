@@ -15,6 +15,7 @@ import { votePost, deletePost } from '../actions';
 import LinearProgress from 'material-ui/LinearProgress';
 import VoteComponent from './VoteComponent';
 import MoreMenu from './MoreMenu';
+import SortingSelection from './SortingSelection';
 
 const styles = {
   card: {
@@ -37,8 +38,9 @@ class PostList extends Component {
     return (
       <div>
         <Card style={styles.card}>
-          <List>
+          <List style={{position: 'relative'}}>
             <Subheader>{`Posts in ${this.props.categoryName} category`}</Subheader>
+            <SortingSelection style={{position: 'absolute', right: '10px', top: '1px'}} />
             {this.props.postLoading && <LinearProgress style={{margin: '15px'}} mode="indeterminate" />}
             {this.props.posts.length === 0 && !this.props.postLoading && <div style={{margin: '15px'}}>No post in this category</div>}
             {this.props.posts.map( (post, index) =>
