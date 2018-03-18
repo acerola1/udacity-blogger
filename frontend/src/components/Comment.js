@@ -63,7 +63,11 @@ class Comment extends Component {
             onUpVote={(event) => this.onVoteComment(comment.id, 'upVote', event)}
             onDownVote={(event) => this.onVoteComment(comment.id, 'downVote', event)}
           />
-          {<MoreMenu id={comment.id} onDelete={this.props.deleteComment} onEdit={this.onEdit} />}
+          {<MoreMenu
+            id={comment.id}
+            onDelete={(id) => this.props.deleteComment(id, this.props.post)}
+            onEdit={this.onEdit}
+          />}
         </div>
         <Card style={{display: 'flex'}} >
           <div  style={{margin: '20px'}}>
@@ -90,7 +94,7 @@ class Comment extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    deleteComment: commentId => dispatch(deleteComment(commentId)),
+    deleteComment: (commentId, post) => dispatch(deleteComment(commentId, post)),
     voteComment: (commentId, option) => dispatch(voteComment(commentId, option)),
     changeComment: (commentId, comment) => dispatch(changeComment(commentId, comment))
   }

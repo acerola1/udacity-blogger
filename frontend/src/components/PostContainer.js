@@ -53,6 +53,7 @@ class PostContainer extends Component {
           <Comment
             key={comment.id}
             comment={comment}
+            post={post}
           />
         )}
         <NewComment post={post}/>

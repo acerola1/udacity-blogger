@@ -96,14 +96,16 @@ export function deletePost(postId) {
   }
 }
 
-export function deleteComment(commentId) {
+export function deleteComment(commentId, post) {
   return dispatch => {
     Api.deleteComment(commentId).then (
       comment => {dispatch( {
         type: COMMENT_CHANGED,
         comment
       })}
-    );
+    ).then(dispatch(
+      changePost(post.id, {commentCount: post.commentCount - 1})
+    ));
   }
 }
 
@@ -140,13 +142,15 @@ export function changePost(postId, post) {
   }
 }
 
-export function createComment(comment) {
+export function createComment(comment, post) {
   return dispatch => {
     Api.createComment(comment).then (
       comment => {dispatch( {
         type: ADD_COMMENT,
         comment
       })}
-    );
+    ).then(dispatch(
+      changePost(post.id, {commentCount: post.commentCount + 1})
+    ));
   }
 }

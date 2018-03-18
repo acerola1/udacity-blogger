@@ -21,14 +21,15 @@ class NewComment extends Component {
   }
 
   onOk = () => {
+    let {post} = this.props;
     let comment = {
       id: uuid(),
       timestamp: Date.now(),
       body: this.state.body,
       author: this.props.selectedUser.name,
-      parentId: this.props.post.id
+      parentId: post.id
     }
-    this.props.createComment(comment);
+    this.props.createComment(comment, post)
     this.setState({body: ''});
   }
 
@@ -52,7 +53,7 @@ class NewComment extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    createComment: (comment) => dispatch(actions.createComment(comment))
+    createComment: (comment, post) => dispatch(actions.createComment(comment, post))
   }
 }
 
