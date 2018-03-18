@@ -7,9 +7,6 @@ import PostPage from './components/PostPage';
 import NewPostPage from './components/NewPostPage';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     return (

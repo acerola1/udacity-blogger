@@ -10,7 +10,7 @@ const initialState = {
     comments: []
   },
   setting: {
-    sorting: cons.SCORE_DESC,
+    sorting: cons.TIME_DESC,
     loading: {
       category: false,
       post: false,

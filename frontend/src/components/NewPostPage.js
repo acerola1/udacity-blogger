@@ -19,8 +19,6 @@ function NewPostPage(props) {
     post.author = props.selectedUser.name;
     post.commentCount = 0;
     props.createPost(post, () => props.history.push(`/${post.category}/${post.id}`))
-
-    console.log(post)
   }
 
   let post = {

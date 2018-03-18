@@ -25,8 +25,8 @@ const styles = {
 class Post extends Component {
   state = {
     editing: this.props.mode ? true : false,
-    title: '',
-    body: '',
+    title: this.props.post.title,
+    body: this.props.post.body,
     category: this.props.post.category,
     titleError: '',
     bodyError: ''

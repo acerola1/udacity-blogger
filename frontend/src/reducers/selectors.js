@@ -25,6 +25,8 @@ export function getPostsByCategory(state, categoryPath) {
         return (a, b) => b.timestamp - a.timestamp;
       case cons.TIME_ASC:
         return (a, b) => a.timestamp - b.timestamp;
+      default:
+        return (a, b) => b.voteScore - a.voteScore;
     }
   }
   posts.sort(getComparator(sorting));

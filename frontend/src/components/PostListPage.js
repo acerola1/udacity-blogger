@@ -34,9 +34,6 @@ const CategorySelector = (props) => {
   )};
 
 class PostListPage extends Component {
-	constructor(props) {
-		super(props)
-	}
 
   categoryChange(path) {
     this.props.history.push(path);

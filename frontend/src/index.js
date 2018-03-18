@@ -7,7 +7,7 @@ import registerServiceWorker from './registerServiceWorker';
 import { createStore, applyMiddleware, compose } from 'redux'
 import reducer from './reducers';
 import thunk from 'redux-thunk';
-import { fetchCategories, fetchPosts, fetchComments } from './actions';
+import { fetchCategories, fetchPosts } from './actions';
 import { BrowserRouter } from 'react-router-dom';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
