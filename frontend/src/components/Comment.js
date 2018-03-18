@@ -55,13 +55,30 @@ class Comment extends Component {
   render() {
     const {comment} = this.props;
     return (
-      <div style={{margin: '20px', marginTop: '0px', position: 'relative'}} >
-        <Avatar src={this.props.getUser(comment.author).path} style={{verticalAlign: 'middle'}} />
-        <div style={{display: 'inline-block', color: grey600, margin: '20px', verticalAlign: 'middle', fontSize: '14px'}}>
-          <span style={{display: 'inline-block'}}><UserIcon style={styles.icon}/>{` ${comment.author}, `}</span>
-          <span style={{display: 'inline-block'}}><ClockIcon style={styles.icon}/>{` ${moment(+comment.timestamp).fromNow()}`}</span>
+      <div style={{margin: '20px', display: 'flex', position: 'relative'}} >
+        <Avatar src={this.props.getUser(comment.author).path} style={{verticalAlign: 'top'}} />
+        <div  style={{width: '100%', marginLeft: '20px', whiteSpace:'pre-wrap'}}>
+          {!this.state.editing && comment.body}
+          {this.state.editing &&
+            <TextField
+              id={comment.id}
+              multiLine={true}
+              onChange={this.onChange}
+              value={this.state.body}
+              style={{width: '100%', marginTop: '-10px'}}
+            />}
+          {this.state.editing &&
+            <div style={{width: '210px'}} >
+              <FlatButton label="Cancel" onClick={() => {this.setState({editing: false})}}/>
+              <FlatButton label="OK" onClick={this.onOk} />
+            </div>
+          }
+          <div style={{display: 'block', color: grey600, marginTop: '5px', verticalAlign: 'middle', fontSize: '14px'}}>
+            <span style={{display: 'inline-block'}}><UserIcon style={styles.icon}/>{` ${comment.author}, `}</span>
+            <span style={{display: 'inline-block'}}><ClockIcon style={styles.icon}/>{` ${moment(+comment.timestamp).fromNow()}`}</span>
+          </div>
         </div>
-        <div style={{display: 'block', position: 'absolute', top: '12px', right: '4px'}} >
+        <div style={{display: 'block', width: '190px'}} >
           <VoteComponent
             float={false}
             style={{verticalAlign: 'top'}}
@@ -69,31 +86,13 @@ class Comment extends Component {
             onUpVote={(event) => this.onVoteComment(comment.id, 'upVote', event)}
             onDownVote={(event) => this.onVoteComment(comment.id, 'downVote', event)}
           />
-          {<MoreMenu
+          <MoreMenu
             id={comment.id}
             onDelete={(id) => this.props.deleteComment(id, this.props.post)}
             onEdit={this.onEdit}
-          />}
+          />
         </div>
 
-          <div  style={{display: 'block', whiteSpace:'pre-wrap'}}>
-            {!this.state.editing && comment.body}
-            {this.state.editing &&
-              <TextField
-                floatingLabelText={'Comment'}
-                id={comment.id}
-                multiLine={true}
-                onChange={this.onChange}
-                value={this.state.body}
-                style={{width: '100%'}}
-              />}
-            {this.state.editing &&
-              <div style={{verticalAlign: 'bottom', width: '210px'}} >
-                <FlatButton label="Cancel" onClick={() => {this.setState({editing: false})}}/>
-                <FlatButton label="OK" onClick={this.onOk} />
-              </div>
-            }
-          </div>
 
       </div>
     );
