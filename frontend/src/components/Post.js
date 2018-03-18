@@ -24,7 +24,9 @@ class Post extends Component {
   state = {
     editing: this.props.editMode ? this.props.editMode : false,
     title: '',
-    body: ''
+    body: '',
+    titleError: '',
+    bodyError: ''
   }
 
   onEdit = id => {
@@ -35,12 +37,23 @@ class Post extends Component {
   onChange = (event, text, name) => this.setState({[name]: text})
 
   onOk = event => {
-    this.props.changePost(this.props.post.id, {
-      title: this.state.title,
-      body: this.state.body,
-      timestamp: Date.now()
-    });
-    this.setState({editing: false});
+    if (this.isValid()) {
+      this.props.changePost(this.props.post.id, {
+        title: this.state.title,
+        body: this.state.body,
+        timestamp: Date.now()
+      });
+      this.setState({editing: false});
+    }
+  }
+
+  isValid = () => {
+    let {title, body} = this.state;
+    if (title && body) {
+      return true;
+    }
+    this.setState({titleError: !title ? 'Required' : ''});
+    this.setState({bodyError: !body ? 'Required' : ''});
   }
 
   onCancel = () => {
@@ -68,6 +81,7 @@ class Post extends Component {
                 onChange={(event, text) => this.onChange(event, text, 'title')}
                 value={this.state.title}
                 style={{display: 'block', width: '100%'}}
+                errorText={this.state.titleError}
               />
               <TextField floatingLabelText={'Body'}
                 id={post.id+'_body'}
@@ -75,6 +89,7 @@ class Post extends Component {
                 onChange={(event, text) => this.onChange(event, text, 'body')}
                 value={this.state.body}
                 style={{display: 'block', width: '100%'}}
+                errorText={this.state.bodyError}
               />
             </div>
           }
