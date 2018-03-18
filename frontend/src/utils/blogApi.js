@@ -70,3 +70,10 @@ export function changePost(postId, post) {
   return fetch(`${baseUrl}/posts/${postId}`, { method: 'PUT', headers, body })
     .then(res => res.json());
 }
+
+export function createComment(comment) {
+  const body = JSON.stringify(comment);
+
+  return fetch(`${baseUrl}/comments/`, { method: 'POST', headers, body })
+    .then(res => res.json());
+}

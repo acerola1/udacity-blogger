@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import {Card, CardActions} from 'material-ui/Card';
 import * as moment from 'moment';
 import VoteComponent from './VoteComponent';
@@ -8,6 +9,8 @@ import FlatButton from 'material-ui/FlatButton';
 import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 import MoreMenu from './MoreMenu';
+import { deleteComment, voteComment, changeComment } from '../actions';
+import { getUserByName } from '../reducers/selectors';
 
 const styles = {
   card: {
@@ -47,7 +50,7 @@ class Comment extends Component {
     const {comment} = this.props;
     return (
       <div style={{margin: '20px', position: 'relative'}} >
-        <Avatar src={this.props.avatar} style={{verticalAlign: 'middle'}} />
+        <Avatar src={this.props.getUser(comment.author).path} style={{verticalAlign: 'middle'}} />
         <div style={{display: 'inline-block', margin: '20px', verticalAlign: 'middle'}}>
           <span style={{display: 'block'}}><UserIcon style={styles.icon}/>{` ${comment.author}`}</span>
           <span style={{display: 'block'}}><ClockIcon style={styles.icon}/>{` ${moment(+comment.timestamp).fromNow()}`}</span>
@@ -85,4 +88,21 @@ class Comment extends Component {
   }
 }
 
-export default Comment;
+function mapDispatchToProps(dispatch) {
+  return {
+    deleteComment: commentId => dispatch(deleteComment(commentId)),
+    voteComment: (commentId, option) => dispatch(voteComment(commentId, option)),
+    changeComment: (commentId, comment) => dispatch(changeComment(commentId, comment))
+  }
+}
+
+function mapStateToProps(state, props) {
+  return {
+    getUser: userName => getUserByName(state, userName)
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Comment);

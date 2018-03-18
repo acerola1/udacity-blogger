@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import {
   SET_CATEGORIES, SET_POSTS, CHANGE_LOADING, SET_COMMENTS,
-  POST_CHANGED, COMMENT_CHANGED, SELECT_USER
+  POST_CHANGED, COMMENT_CHANGED, SELECT_USER, ADD_COMMENT
 } from '../actions';
 import initialState from './initialState';
 
@@ -33,6 +33,8 @@ function comment(state = initialState.comment, action) {
   switch (action.type) {
     case SET_COMMENTS:
       return {...action.payload};
+    case ADD_COMMENT:
+      return {...state, comments: [...state.comments, action.comment]};
     case COMMENT_CHANGED:
       return { ...state, comments: [...state.comments.map( c => c.id === action.comment.id ? action.comment : c)] };
     default:

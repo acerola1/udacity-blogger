@@ -7,6 +7,7 @@ export const CHANGE_LOADING = 'CHANGE_LOADING';
 export const POST_CHANGED = 'POST_CHANGED';
 export const COMMENT_CHANGED = 'COMMENT_CHANGED';
 export const SELECT_USER = 'SELECT_USER';
+export const ADD_COMMENT = 'ADD_COMMENT';
 
 export function setCategories(categories) {
   return {
@@ -134,6 +135,17 @@ export function changePost(postId, post) {
       post => {dispatch( {
         type: POST_CHANGED,
         post
+      })}
+    );
+  }
+}
+
+export function createComment(comment) {
+  return dispatch => {
+    Api.createComment(comment).then (
+      comment => {dispatch( {
+        type: ADD_COMMENT,
+        comment
       })}
     );
   }

@@ -4,10 +4,11 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import BackIcon from 'material-ui/svg-icons/navigation/arrow-back';
 import { getPostById, getCategoryByPath, isLoading, getCommentsById, getUserByName } from '../reducers/selectors';
-import { deletePost, votePost, fetchComments, deleteComment, voteComment, changeComment, changePost } from '../actions';
+import { deletePost, votePost, fetchComments, changePost } from '../actions';
 import AvatarMenu from './AvatarMenu';
 import Post from './Post';
 import Comment from './Comment';
+import NewComment from './NewComment';
 
 class PostContainer extends Component {
 
@@ -52,12 +53,9 @@ class PostContainer extends Component {
           <Comment
             key={comment.id}
             comment={comment}
-            voteComment={this.props.voteComment}
-            deleteComment={this.props.deleteComment}
-            changeComment={this.props.changeComment}
-            avatar={this.props.getUser(comment.author).path}
           />
         )}
+        <NewComment post={post}/>
       </div>
     )
   }
@@ -67,11 +65,8 @@ function mapDispatchToProps(dispatch) {
   return {
     votePost: (postId, option) => dispatch(votePost(postId, option)),
     deletePost: postId => dispatch(deletePost(postId)),
-    fetchComments: postId => dispatch(fetchComments(postId)),
-    deleteComment: commentId => dispatch(deleteComment(commentId)),
-    voteComment: (commentId, option) => dispatch(voteComment(commentId, option)),
-    changeComment: (commentId, comment) => dispatch(changeComment(commentId, comment)),
-    changePost: (postId, post) => dispatch(changePost(postId, post))
+    changePost: (postId, post) => dispatch(changePost(postId, post)),
+    fetchComments: postId => dispatch(fetchComments(postId))
   }
 }
 
