@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import {Card, CardActions} from 'material-ui/Card';
 import * as moment from 'moment';
 import VoteComponent from './VoteComponent';
 import ClockIcon from 'material-ui/svg-icons/action/schedule';
@@ -9,6 +8,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 import MoreMenu from './MoreMenu';
+import {grey600} from 'material-ui/styles/colors';
 import { deleteComment, voteComment, changeComment } from '../actions';
 import { getUserByName } from '../reducers/selectors';
 
@@ -25,7 +25,7 @@ const styles = {
 
 class Comment extends Component {
 
-  state = {editing: false, editedComment: ''};
+  state = {editing: false, body: ''};
 
   onVoteComment = (commentId, option, event) => {
     event.stopPropagation();
@@ -33,27 +33,33 @@ class Comment extends Component {
   }
 
   onEdit = id => {
-    this.setState({editing: true, editedComment: this.props.comment.body});
+    this.setState({editing: true, body: this.props.comment.body});
   }
 
-  onCommentChange = (event, editedComment) => this.setState({editedComment})
+  onChange = (event, body) => {
+    if (body.endsWith('\n')) {
+      this.onOk();
+    } else {
+      this.setState({body});
+    }
+  }
 
   onOk = event => {
     this.props.changeComment(this.props.comment.id, {
-      body: this.state.editedComment,
+      body: this.state.body,
       timestamp: Date.now()
     });
-    this.setState({editing: false, editedComment: ''});
+    this.setState({editing: false, body: ''});
   }
 
   render() {
     const {comment} = this.props;
     return (
-      <div style={{margin: '20px', position: 'relative'}} >
+      <div style={{margin: '20px', marginTop: '0px', position: 'relative'}} >
         <Avatar src={this.props.getUser(comment.author).path} style={{verticalAlign: 'middle'}} />
-        <div style={{display: 'inline-block', margin: '20px', verticalAlign: 'middle'}}>
-          <span style={{display: 'block'}}><UserIcon style={styles.icon}/>{` ${comment.author}`}</span>
-          <span style={{display: 'block'}}><ClockIcon style={styles.icon}/>{` ${moment(+comment.timestamp).fromNow()}`}</span>
+        <div style={{display: 'inline-block', color: grey600, margin: '20px', verticalAlign: 'middle', fontSize: '14px'}}>
+          <span style={{display: 'inline-block'}}><UserIcon style={styles.icon}/>{` ${comment.author}, `}</span>
+          <span style={{display: 'inline-block'}}><ClockIcon style={styles.icon}/>{` ${moment(+comment.timestamp).fromNow()}`}</span>
         </div>
         <div style={{display: 'block', position: 'absolute', top: '12px', right: '4px'}} >
           <VoteComponent
@@ -69,24 +75,26 @@ class Comment extends Component {
             onEdit={this.onEdit}
           />}
         </div>
-        <Card style={{display: 'flex'}} >
-          <div  style={{margin: '20px'}}>
+
+          <div  style={{display: 'block', whiteSpace:'pre-wrap'}}>
             {!this.state.editing && comment.body}
             {this.state.editing &&
-              <TextField floatingLabelText={'Comment'}
+              <TextField
+                floatingLabelText={'Comment'}
                 id={comment.id}
                 multiLine={true}
-                onChange={this.onCommentChange}
-                value={this.state.editedComment}
+                onChange={this.onChange}
+                value={this.state.body}
+                style={{width: '100%'}}
               />}
             {this.state.editing &&
-              <CardActions>
+              <div style={{verticalAlign: 'bottom', width: '210px'}} >
                 <FlatButton label="Cancel" onClick={() => {this.setState({editing: false})}}/>
                 <FlatButton label="OK" onClick={this.onOk} />
-              </CardActions>
+              </div>
             }
           </div>
-        </Card>
+
       </div>
     );
   }

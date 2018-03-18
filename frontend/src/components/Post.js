@@ -54,7 +54,7 @@ class Post extends Component {
           style={{paddingBottom: 0}}
         />
         {!this.state.editing && <CardTitle title={post.title} />}
-        <CardText style={{paddingTop: 0}}>
+        <CardText style={{paddingTop: 0, whiteSpace:'pre-wrap'}}>
           {!this.state.editing && post.body}
           {this.state.editing &&
             <div>

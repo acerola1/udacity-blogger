@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
@@ -6,6 +6,7 @@ import BackIcon from 'material-ui/svg-icons/navigation/arrow-back';
 import { getPostById, getCategoryByPath, isLoading, getCommentsById, getUserByName } from '../reducers/selectors';
 import { deletePost, votePost, fetchComments, changePost } from '../actions';
 import AvatarMenu from './AvatarMenu';
+import Divider from 'material-ui/Divider';
 import Post from './Post';
 import Comment from './Comment';
 import NewComment from './NewComment';
@@ -19,7 +20,11 @@ class PostContainer extends Component {
 
   onDelete = postId => {
     this.props.deletePost(postId);
-    this.props.history.goBack();
+    this.goBack();
+  }
+
+  goBack = () => {
+    this.props.history.push('/');
   }
 
   componentDidMount() {
@@ -34,7 +39,7 @@ class PostContainer extends Component {
           title="Readable"
           iconElementLeft={
             <IconButton>
-              <BackIcon onClick={(e, i) => this.props.history.goBack()}/>
+              <BackIcon onClick={(e, i) => this.goBack()}/>
             </IconButton>
           }
           iconElementRight={
@@ -50,11 +55,13 @@ class PostContainer extends Component {
             avatar={this.props.getUser(post.author).path}
           />}
         {(post && !commentLoading) && this.props.comments.map( comment =>
-          <Comment
-            key={comment.id}
-            comment={comment}
-            post={post}
-          />
+          <Fragment key={comment.id}>
+            <Comment
+              comment={comment}
+              post={post}
+            />
+            <Divider inset={true} />
+          </Fragment>
         )}
         <NewComment post={post}/>
       </div>
