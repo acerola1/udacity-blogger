@@ -24,15 +24,17 @@ const styles = {
 
 class Post extends Component {
   state = {
-    editing: this.props.newMode ? this.props.newMode : false,
+    editing: this.props.mode ? true : false,
     title: '',
     body: '',
     category: this.props.post.category,
     titleError: '',
     bodyError: ''
   }
+  path = `/${this.props.post.category}/${this.props.post.id}`
 
   onEdit = id => {
+    this.props.history.push(this.path + '/edit');
     let {post} = this.props;
     this.setState({editing: true, title: post.title, body: post.body});
   }
@@ -47,6 +49,7 @@ class Post extends Component {
         timestamp: Date.now(),
         category: this.state.category
       });
+      this.props.history.push(this.path);
       this.setState({editing: false});
     }
   }
@@ -61,6 +64,7 @@ class Post extends Component {
   }
 
   onCancel = () => {
+    this.props.history.push(this.path);
     this.props.onCancel && this.props.onCancel();
     this.setState({editing: false})
   }
@@ -95,7 +99,7 @@ class Post extends Component {
                 style={{display: 'block', width: '100%'}}
                 errorText={this.state.bodyError}
               />
-              {this.props.newMode && <SelectField
+              {this.props.mode === 'new' && <SelectField
                 floatingLabelText="Category"
                 value={this.state.category}
                 onChange={(event, index, value) => this.onChange(event, value, 'category')}
@@ -103,7 +107,6 @@ class Post extends Component {
                 {this.props.categories.map( cat => (
                   <MenuItem key={cat.path} value={cat.path} primaryText={cat.name} />))}
               </SelectField>
-
               }
             </div>
           }

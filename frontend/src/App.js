@@ -18,7 +18,8 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={PostListPage} />
             <Route exact path="/new-post" component={NewPostPage} />
-            <Route path="/:categoryPath/:postId" component={PostPage} />
+            <Route exact path="/:categoryPath/:postId" component={PostPage} />
+            <Route exact path="/:categoryPath/:postId/:mode" component={PostPage} />
             <Route path="/:categoryPath" component={PostListPage} />
           </Switch>
         </MuiThemeProvider>

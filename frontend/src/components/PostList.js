@@ -48,7 +48,12 @@ class PostList extends Component {
                 {index !==0 && <Divider inset={true} />}
                 <ListItem
                   leftAvatar={<Avatar src={this.props.getUser(post.author).path} />}
-                  rightIconButton={<MoreMenu id={post.id} onDelete={this.props.deletePost} />}
+                  rightIconButton={<MoreMenu
+                    id={post.id}
+                    onDelete={this.props.deletePost}
+                    onEdit={(id) => this.props.history.push(`${post.category}/${id}/edit`)}
+                    />
+                  }
                   primaryText={post.title}
                   onClick={() => this.props.history.push(`${post.category}/${post.id}`)}
                   secondaryText={

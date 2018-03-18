@@ -46,10 +46,11 @@ function NewPostPage(props) {
       <Post
         post={post}
         avatar={props.selectedUser.path}
-        newMode={true}
+        mode={'new'}
         onCancel={() => goBack()}
         changePost={newPost}
         categories={props.categories}
+        history={props.history}
       />
     </div>
   )

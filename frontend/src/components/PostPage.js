@@ -53,6 +53,8 @@ class PostPage extends Component {
             onVotePost={this.onVotePost}
             onDelete={this.onDelete}
             avatar={this.props.getUser(post.author).path}
+            mode={this.props.mode}
+            history={this.props.history}
           />}
         {(post && !commentLoading) && this.props.comments.map( comment =>
           <Fragment key={comment.id}>
@@ -79,10 +81,11 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state, props) {
-  let {categoryPath = '/', postId} = props.match.params;
+  let {categoryPath = '/', postId, mode = ''} = props.match.params;
   return {
     post: getPostById(state, postId),
     postId,
+    mode,
     category: getCategoryByPath(state, categoryPath),
     comments: getCommentsById(state, postId),
     postLoading: isLoading(state, 'post'),
