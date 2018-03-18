@@ -22,7 +22,7 @@ const styles = {
 
 class Post extends Component {
   state = {
-    editing: false,
+    editing: this.props.editMode ? this.props.editMode : false,
     title: '',
     body: ''
   }
@@ -41,6 +41,11 @@ class Post extends Component {
       timestamp: Date.now()
     });
     this.setState({editing: false});
+  }
+
+  onCancel = () => {
+    this.props.onCancel && this.props.onCancel();
+    this.setState({editing: false})
   }
 
   render() {
@@ -87,7 +92,7 @@ class Post extends Component {
           </CardActions>}
         {this.state.editing &&
           <CardActions>
-            <FlatButton label="Cancel" onClick={() => {this.setState({editing: false})}}/>
+            <FlatButton label="Cancel" onClick={this.onCancel}/>
             <FlatButton label="OK" onClick={this.onOk} />
           </CardActions>}
       </Card>

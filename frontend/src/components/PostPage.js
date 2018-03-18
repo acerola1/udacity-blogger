@@ -11,7 +11,7 @@ import Post from './Post';
 import Comment from './Comment';
 import NewComment from './NewComment';
 
-class PostContainer extends Component {
+class PostPage extends Component {
 
   onVotePost = (postId, option, event) => {
     event.stopPropagation();
@@ -94,4 +94,4 @@ function mapStateToProps(state, props) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PostContainer);
+)(PostPage);

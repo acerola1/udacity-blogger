@@ -77,3 +77,10 @@ export function createComment(comment) {
   return fetch(`${baseUrl}/comments/`, { method: 'POST', headers, body })
     .then(res => res.json());
 }
+
+export function createPost(post) {
+  const body = JSON.stringify(post);
+
+  return fetch(`${baseUrl}/posts/`, { method: 'POST', headers, body })
+    .then(res => res.json());
+}

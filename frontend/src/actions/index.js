@@ -9,6 +9,7 @@ export const COMMENT_CHANGED = 'COMMENT_CHANGED';
 export const SELECT_USER = 'SELECT_USER';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const SET_SORTING = 'SET_SORTING';
+export const ADD_POST = 'ADD_POST';
 
 export function setCategories(categories) {
   return {
@@ -160,5 +161,16 @@ export function createComment(comment, post) {
     ).then(dispatch(
       changePost(post.id, {commentCount: post.commentCount + 1})
     ));
+  }
+}
+
+export function createPost(post, callback) {
+  return dispatch => {
+    Api.createPost(post).then (
+      post => {dispatch( {
+        type: ADD_POST,
+        post
+      })}
+    ).then(() => callback && callback());
   }
 }

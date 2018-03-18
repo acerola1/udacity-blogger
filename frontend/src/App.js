@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
 import { Route, Switch } from 'react-router-dom';
-import CategoryContainer from './components/CategoryContainer';
+import PostListPage from './components/PostListPage';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import PostContainer from './components/PostContainer';
+import PostPage from './components/PostPage';
+import NewPostPage from './components/NewPostPage';
 
 class App extends Component {
   constructor(props) {
@@ -15,9 +16,10 @@ class App extends Component {
       <div>
         <MuiThemeProvider>
           <Switch>
-            <Route exact path="/" component={CategoryContainer} />
-            <Route path="/:categoryPath/:postId" component={PostContainer} />
-            <Route path="/:categoryPath" component={CategoryContainer} />
+            <Route exact path="/" component={PostListPage} />
+            <Route exact path="/new-post" component={NewPostPage} />
+            <Route path="/:categoryPath/:postId" component={PostPage} />
+            <Route path="/:categoryPath" component={PostListPage} />
           </Switch>
         </MuiThemeProvider>
       </div>

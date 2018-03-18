@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import {
   SET_CATEGORIES, SET_POSTS, CHANGE_LOADING, SET_COMMENTS,
-  POST_CHANGED, COMMENT_CHANGED, SELECT_USER, ADD_COMMENT, SET_SORTING
+  POST_CHANGED, COMMENT_CHANGED, SELECT_USER, ADD_COMMENT, SET_SORTING, ADD_POST
 } from '../actions';
 import initialState from './initialState';
 
@@ -24,6 +24,8 @@ function post(state = initialState.post, action) {
       return [ ...action.posts ];
     case POST_CHANGED:
       return [ ...state.map( p => p.id === action.post.id ? action.post : p) ];
+    case ADD_POST:
+      return [ ...state, action.post];
     default:
       return state;
   }

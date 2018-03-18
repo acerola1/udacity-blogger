@@ -6,6 +6,8 @@ import MenuItem from 'material-ui/MenuItem';
 import PostList from './PostList';
 import { getCategories, getCategoryByPath } from '../reducers/selectors';
 import AvatarMenu from './AvatarMenu';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 const CategorySelector = (props) => {
   const styles = {
@@ -31,7 +33,7 @@ const CategorySelector = (props) => {
     </DropDownMenu>
   )};
 
-class CategoryContainer extends Component {
+class PostListPage extends Component {
 	constructor(props) {
 		super(props)
 	}
@@ -39,6 +41,15 @@ class CategoryContainer extends Component {
   categoryChange(path) {
     this.props.history.push(path);
   }
+
+  fobStyle = {
+    margin: 0,
+    top: 'auto',
+    right: 20,
+    bottom: 20,
+    left: 'auto',
+    position: 'fixed',
+  };
 
   render() {
 
@@ -59,6 +70,9 @@ class CategoryContainer extends Component {
           }
         />
         <PostList {...{categoryName, categoryPath, history}} />
+        <FloatingActionButton style={this.fobStyle}>
+          <ContentAdd onClick={() => this.props.history.push('/new-post')} />
+        </FloatingActionButton>
       </div>
     );
   }
@@ -75,4 +89,4 @@ function mapStateToProps(state, props) {
 export default connect(
   mapStateToProps,
   null
-)(CategoryContainer);
+)(PostListPage);

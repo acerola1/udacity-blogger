@@ -92,8 +92,6 @@ class Comment extends Component {
             onEdit={this.onEdit}
           />
         </div>
-
-
       </div>
     );
   }
