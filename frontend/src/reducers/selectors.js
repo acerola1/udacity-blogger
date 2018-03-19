@@ -14,7 +14,7 @@ export function getPostById(state, postId) {
 
 export function getPostsByCategory(state, categoryPath) {
   let sorting = getSorting(state);
-  let posts = getPosts(state).concat();
+  let posts = [...getPosts(state)];
   let getComparator = (sorting) => {
     switch (sorting) {
       case cons.SCORE_DESC:
@@ -64,7 +64,8 @@ export function getUserByName(state, name) {
 }
 
 export function getSelectedUser(state) {
-  return getUserByName(state, state.user.selectedUser);
+  let user = getUserByName(state, state.user.selectedUser)
+  return user ? user : getUserByName(state, cons.DEFAULT_USER);
 }
 
 export function getSorting(state) {

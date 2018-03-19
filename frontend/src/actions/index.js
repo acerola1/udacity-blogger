@@ -40,6 +40,7 @@ export function changeLoading(component) {
 }
 
 export function setSelectedUser(selectedUser) {
+  localStorage.selectedUser = selectedUser;
   return {
     type: SELECT_USER,
     selectedUser
