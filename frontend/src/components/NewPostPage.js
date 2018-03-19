@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getCategories, getSelectedUser } from '../reducers/selectors';
+import { getCategories, getSelectedUser, createUniquePostId } from '../reducers/selectors';
 import Post from './Post';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import BackIcon from 'material-ui/svg-icons/navigation/arrow-back';
 import AvatarMenu from './AvatarMenu';
-import uuid from 'uuid';
 import * as actions from '../actions';
 
 function NewPostPage(props) {
@@ -15,7 +14,7 @@ function NewPostPage(props) {
   }
 
   let newPost = (postId, post) => {
-    post.id = uuid();
+    post.id = props.createUniquePostId(post.title);
     post.author = props.selectedUser.name;
     post.commentCount = 0;
     props.createPost(post, () => props.history.push(`/${post.category}/${post.id}`))
@@ -63,7 +62,8 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state, props) {
   return {
     categories: getCategories(state).filter( cat => cat.name !== 'All'),
-    selectedUser: getSelectedUser(state)
+    selectedUser: getSelectedUser(state),
+    createUniquePostId: (title) => createUniquePostId(state, title)
   }
 }
 

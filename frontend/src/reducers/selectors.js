@@ -75,3 +75,14 @@ export function getSelectedUser(state) {
 export function getSorting(state) {
   return state.setting.sorting;
 }
+
+const kebabCase = string => string.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/\s+/g, '-').toLowerCase();
+
+export function createUniquePostId(store, title) {
+  let ids = getPosts(store).map(post => post.id);
+  let kebabTitle = kebabCase(title);
+  while (ids.includes(kebabTitle)) {
+    kebabTitle += Math.floor(Math.random() * Math.floor(9));
+  }
+  return kebabTitle;
+}
