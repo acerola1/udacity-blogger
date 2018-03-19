@@ -4,24 +4,10 @@ import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';
 import registerServiceWorker from './registerServiceWorker';
-import { createStore, applyMiddleware, compose } from 'redux'
-import reducer from './reducers';
-import thunk from 'redux-thunk';
-import { fetchCategories, fetchPosts } from './actions';
 import { BrowserRouter } from 'react-router-dom';
+import { initStore } from './utils/initStore';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const store = createStore(
-  reducer,
-  {},
-  composeEnhancers(
-    applyMiddleware(thunk)
-  )
-);
-
-store.dispatch(fetchCategories());
-store.dispatch(fetchPosts());
+let store = initStore();
 
 ReactDOM.render(
   <Provider store={store}>

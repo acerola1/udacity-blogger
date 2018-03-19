@@ -1,10 +1,5 @@
 import * as cons from '../utils/constants'
 
-let selectedUser = localStorage.selectedUser;
-if (!selectedUser) {
-  selectedUser = localStorage.selectedUser = cons.DEFAULT_USER;
-}
-
 const initialState = {
   category: [{
     name: "All",
@@ -23,7 +18,7 @@ const initialState = {
     }
   },
   user: {
-    selectedUser,
+    selectedUser: cons.DEFAULT_USER,
     users: [
     {name: 'thingone', path: '/user1.jpg'},
     {name: 'thingtwo', path: '/user2.jpg'},
