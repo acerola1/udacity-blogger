@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { getPostsByCategory, isLoading, getUserByName } from '../reducers/selectors';
+import { getPostsByCategory, getUserByName } from '../reducers/selectors';
 import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
@@ -41,7 +41,6 @@ class PostList extends Component {
           <List style={{position: 'relative'}}>
             <Subheader>{`Posts in ${this.props.categoryName} category`}</Subheader>
             <SortingSelection style={{position: 'absolute', right: '10px', top: '1px'}} />
-            {this.props.postLoading && <LinearProgress style={{margin: '15px'}} mode="indeterminate" />}
             {this.props.posts.length === 0 && !this.props.postLoading && <div style={{margin: '15px'}}>No post in this category</div>}
             {this.props.posts.map( (post, index) =>
               <Fragment key={post.id}>
@@ -93,7 +92,6 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state, props) {
   return {
     posts: getPostsByCategory(state, props.categoryPath),
-    postLoading: isLoading(state, 'post'),
     getUser: userName => getUserByName(state, userName)
   }
 }

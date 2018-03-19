@@ -10,6 +10,7 @@ import Divider from 'material-ui/Divider';
 import Post from './Post';
 import Comment from './Comment';
 import NewComment from './NewComment';
+import CircularProgress from 'material-ui/CircularProgress';
 
 class PostPage extends Component {
 
@@ -46,7 +47,8 @@ class PostPage extends Component {
             <AvatarMenu />
           }
         />
-        {!post && <div style={{margin: '20px'}}>Post not Found</div>}
+        {postLoading && <CircularProgress style={{margin: '30px', display: 'box'}} />}
+        {!post && !postLoading && <div style={{margin: '20px'}}>Post not Found</div>}
         {(post && !postLoading) &&
           <Post
             {...this.props}
@@ -56,6 +58,7 @@ class PostPage extends Component {
             mode={this.props.mode}
             history={this.props.history}
           />}
+        {commentLoading && <CircularProgress style={{margin: '30px', display: 'box'}} />}
         {(post && !commentLoading) && this.props.comments.map( comment =>
           <Fragment key={comment.id}>
             <Comment

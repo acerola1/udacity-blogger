@@ -4,10 +4,11 @@ import AppBar from 'material-ui/AppBar';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import PostList from './PostList';
-import { getCategories, getCategoryByPath } from '../reducers/selectors';
+import { getCategories, getCategoryByPath, isLoading } from '../reducers/selectors';
 import AvatarMenu from './AvatarMenu';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import CircularProgress from 'material-ui/CircularProgress';
 
 const CategorySelector = (props) => {
   const styles = {
@@ -66,7 +67,8 @@ class PostListPage extends Component {
             <AvatarMenu />
           }
         />
-        <PostList {...{categoryName, categoryPath, history}} />
+        {this.props.postLoading && <CircularProgress style={{margin: '30px'}} />}
+        {!this.props.postLoading && <PostList {...{categoryName, categoryPath, history}} />}
         <FloatingActionButton style={this.fobStyle}>
           <ContentAdd onClick={() => this.props.history.push('/new-post')} />
         </FloatingActionButton>
@@ -79,6 +81,7 @@ function mapStateToProps(state, props) {
   let {categoryPath = '/'} = props.match.params;
   return {
     categories: getCategories(state),
+    postLoading: isLoading(state, 'post'),
     category: getCategoryByPath(state, categoryPath)
   }
 }
