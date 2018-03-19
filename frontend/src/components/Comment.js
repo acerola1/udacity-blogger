@@ -88,7 +88,7 @@ class Comment extends Component {
           />
           <MoreMenu
             id={comment.id}
-            onDelete={(id) => this.props.deleteComment(id, this.props.post)}
+            onDelete={(id) => this.props.deleteComment(id)}
             onEdit={this.onEdit}
           />
         </div>

@@ -51,8 +51,12 @@ export function isLoading(state, key) {
   return state.setting.loading[key];
 }
 
-export function getCommentsById(state, id) {
+export function getCommentsByPostId(state, postId) {
   return state.comment.comments.filter(c => c.deleted !== true);
+}
+
+export function getCommentById(state, id) {
+  return state.comment.comments.find(c => c.id === id);
 }
 
 export function getUsers(state) {

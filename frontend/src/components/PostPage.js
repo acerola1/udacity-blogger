@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import BackIcon from 'material-ui/svg-icons/navigation/arrow-back';
-import { getPostById, getCategoryByPath, isLoading, getCommentsById, getUserByName } from '../reducers/selectors';
+import { getPostById, getCategoryByPath, isLoading, getCommentsByPostId, getUserByName } from '../reducers/selectors';
 import { deletePost, votePost, fetchComments, changePost } from '../actions';
 import AvatarMenu from './AvatarMenu';
 import Divider from 'material-ui/Divider';
@@ -87,7 +87,7 @@ function mapStateToProps(state, props) {
     postId,
     mode,
     category: getCategoryByPath(state, categoryPath),
-    comments: getCommentsById(state, postId),
+    comments: getCommentsByPostId(state, postId),
     postLoading: isLoading(state, 'post'),
     commentLoading: isLoading(state, 'comment'),
     getUser: userName => getUserByName(state, userName)

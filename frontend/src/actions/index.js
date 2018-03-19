@@ -1,4 +1,5 @@
 import * as Api from '../utils/blogApi';
+import { getPostById, getCommentById } from '../reducers/selectors';
 
 export const SET_CATEGORIES = 'SET_CATEGORIES';
 export const SET_POSTS = 'SET_POSTS';
@@ -106,16 +107,18 @@ export function deletePost(postId) {
   }
 }
 
-export function deleteComment(commentId, post) {
-  return dispatch => {
+export function deleteComment(commentId) {
+  return (dispatch, getStore) => {
     Api.deleteComment(commentId).then (
       comment => {dispatch( {
         type: COMMENT_CHANGED,
         comment
       })}
-    ).then(dispatch(
-      changePost(post.id, {commentCount: post.commentCount - 1})
-    ));
+    ).then( () => {
+      let comment = getCommentById(getStore(), commentId);
+      let post = getPostById(getStore(), comment.parentId);
+      dispatch(changePost(post.id, {commentCount: post.commentCount - 1})
+    )});
   }
 }
 
@@ -152,16 +155,17 @@ export function changePost(postId, post) {
   }
 }
 
-export function createComment(comment, post) {
-  return dispatch => {
+export function createComment(comment) {
+  return (dispatch, getStore) => {
     Api.createComment(comment).then (
       comment => {dispatch( {
         type: ADD_COMMENT,
         comment
       })}
-    ).then(dispatch(
-      changePost(post.id, {commentCount: post.commentCount + 1})
-    ));
+    ).then( () => {
+      let post = getPostById(getStore(), comment.parentId);
+      dispatch(changePost(post.id, {commentCount: post.commentCount + 1})
+    )});
   }
 }
 

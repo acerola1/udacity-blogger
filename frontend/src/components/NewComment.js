@@ -53,7 +53,7 @@ class NewComment extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    createComment: (comment, post) => dispatch(actions.createComment(comment, post))
+    createComment: (comment, post) => dispatch(actions.createComment(comment))
   }
 }
 
