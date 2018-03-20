@@ -80,9 +80,13 @@ const kebabCase = string => string.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/
 
 export function createUniquePostId(store, title) {
   let ids = getPosts(store).map(post => post.id);
-  let kebabTitle = kebabCase(title);
-  while (ids.includes(kebabTitle)) {
-    kebabTitle += Math.floor(Math.random() * Math.floor(9));
+  let newId = kebabCase(title);
+  if (!ids.includes(newId)) {
+    return newId;
   }
-  return kebabTitle;
+  let postfix = 1, postfixedId;
+  while (ids.includes(postfixedId = `${newId}-${postfix}`)) {
+    ++postfix;
+  }
+  return postfixedId;
 }

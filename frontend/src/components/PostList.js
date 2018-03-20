@@ -12,7 +12,6 @@ import ClockIcon from 'material-ui/svg-icons/action/schedule';
 import ChatIcon from 'material-ui/svg-icons/communication/chat-bubble';
 import UserIcon from 'material-ui/svg-icons/social/person';
 import { votePost, deletePost } from '../actions';
-import LinearProgress from 'material-ui/LinearProgress';
 import VoteComponent from './VoteComponent';
 import MoreMenu from './MoreMenu';
 import SortingSelection from './SortingSelection';
