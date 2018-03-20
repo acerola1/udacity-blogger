@@ -58,7 +58,7 @@ class PostListPage extends Component {
     return (
       <div>
         <AppBar
-          title="Readable"
+          title="Blogger"
           iconElementLeft={<CategorySelector
             onChange={(e, i) => this.props.history.push(categories[i].path)}
             {...{categoryName, categoryPath, categories}}/>

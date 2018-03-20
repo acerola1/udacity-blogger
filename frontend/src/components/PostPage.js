@@ -37,7 +37,7 @@ class PostPage extends Component {
     return (
       <div>
         <AppBar
-          title="Readable"
+          title="Blogger"
           iconElementLeft={
             <IconButton>
               <BackIcon onClick={(e, i) => this.goBack()}/>

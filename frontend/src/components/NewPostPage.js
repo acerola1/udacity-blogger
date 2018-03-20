@@ -30,7 +30,7 @@ function NewPostPage(props) {
   return (
     <div>
       <AppBar
-        title="Readable"
+        title="Blogger"
         iconElementLeft={
           <IconButton>
             <BackIcon onClick={(e, i) => goBack()}/>
