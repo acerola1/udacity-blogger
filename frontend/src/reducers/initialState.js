@@ -26,7 +26,11 @@ const initialState = {
       {name: 'agnes', path: '/user4.jpg'},
       {name: 'esther', path: '/user5.jpg'},
       {name: 'paul', path: '/user6.jpg'}
-  ]}
+  ]},
+  error: {
+    message: '',
+    open: false,
+  }
 }
 
 export default initialState;

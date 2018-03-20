@@ -5,6 +5,7 @@ import PostListPage from './components/PostListPage';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import PostPage from './components/PostPage';
 import NewPostPage from './components/NewPostPage';
+import Error from './components/Error';
 
 class App extends Component {
 
@@ -19,6 +20,7 @@ class App extends Component {
             <Route exact path="/:categoryPath/:postId/:mode" component={PostPage} />
             <Route path="/:categoryPath" component={PostListPage} />
           </Switch>
+          <Error />
         </MuiThemeProvider>
       </div>
     );

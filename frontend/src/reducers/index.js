@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import {
   SET_CATEGORIES, SET_POSTS, CHANGE_LOADING, SET_COMMENTS,
-  POST_CHANGED, COMMENT_CHANGED, SELECT_USER, ADD_COMMENT, SET_SORTING, ADD_POST
+  POST_CHANGED, COMMENT_CHANGED, SELECT_USER, ADD_COMMENT, SET_SORTING, ADD_POST, DISPLAY_ERROR, CLOSE_ERROR
 } from '../actions';
 import initialState from './initialState';
 
@@ -64,10 +64,22 @@ function user(state = initialState.user, action) {
   }
 }
 
+function error(state = initialState.error, action) {
+  switch (action.type) {
+    case DISPLAY_ERROR:
+      return {...state, message: action.message, open: true};
+    case CLOSE_ERROR:
+      return {...state, open: false};
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   category,
   post,
   comment,
   setting,
-  user
+  user,
+  error
 });

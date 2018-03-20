@@ -11,6 +11,8 @@ export const SELECT_USER = 'SELECT_USER';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const SET_SORTING = 'SET_SORTING';
 export const ADD_POST = 'ADD_POST';
+export const DISPLAY_ERROR = 'DISPLAY_ERROR';
+export const CLOSE_ERROR = 'CLOSE_ERROR';
 
 export function setCategories(categories) {
   return {
@@ -55,12 +57,28 @@ export function setSorting(sorting) {
   };
 }
 
+export function displayError(message) {
+  return {
+    type: DISPLAY_ERROR,
+    message
+  };
+}
+
+export function closeError() {
+  return {
+    type: CLOSE_ERROR
+  };
+}
+
 export function fetchCategories() {
   return dispatch => {
     dispatch(changeLoading({category: true}));
     Api.loadCategories().then(({ categories }) => {
       dispatch(setCategories(categories));
       dispatch(changeLoading({category: false}));
+    }).catch( error => {
+      console.log(error);
+      dispatch(displayError('Connection Lost'));
     });
   }
 }
@@ -71,6 +89,9 @@ export function fetchPosts() {
     Api.loadPosts().then(( posts ) => {
       dispatch(setPosts(posts));
       dispatch(changeLoading({post: false}));
+    }).catch( error => {
+      console.log(error);
+      dispatch(displayError('Connection Lost'));
     });
   }
 }
@@ -81,6 +102,9 @@ export function fetchComments(postId) {
     Api.loadComments(postId).then(( comments ) => {
       dispatch(setComments(postId, comments));
       dispatch(changeLoading({comment: false}));
+    }).catch( error => {
+      console.log(error);
+      dispatch(displayError('Connection Lost'));
     });
   }
 }
@@ -92,7 +116,10 @@ export function votePost(postId, option) {
         type: POST_CHANGED,
         post
       })}
-    );
+    ).catch( error => {
+      console.log(error);
+      dispatch(displayError('Connection Lost'));
+    });
   }
 }
 
@@ -103,7 +130,10 @@ export function deletePost(postId) {
         type: POST_CHANGED,
         post
       })}
-    );
+    ).catch( error => {
+      console.log(error);
+      dispatch(displayError('Connection Lost'));
+    });
   }
 }
 
@@ -118,7 +148,10 @@ export function deleteComment(commentId) {
       let comment = getCommentById(getStore(), commentId);
       let post = getPostById(getStore(), comment.parentId);
       dispatch(changePost(post.id, {commentCount: post.commentCount - 1})
-    )});
+    )}).catch( error => {
+      console.log(error);
+      dispatch(displayError('Connection Lost'));
+    });
   }
 }
 
@@ -129,7 +162,10 @@ export function voteComment(commentId, option) {
         type: COMMENT_CHANGED,
         comment
       })}
-    );
+    ).catch( error => {
+      console.log(error);
+      dispatch(displayError('Connection Lost'));
+    });
   }
 }
 
@@ -140,7 +176,10 @@ export function changeComment(commentId, comment) {
         type: COMMENT_CHANGED,
         comment
       })}
-    );
+    ).catch( error => {
+      console.log(error);
+      dispatch(displayError('Connection Lost'));
+    });
   }
 }
 
@@ -151,7 +190,10 @@ export function changePost(postId, post) {
         type: POST_CHANGED,
         post
       })}
-    );
+    ).catch( error => {
+      console.log(error);
+      dispatch(displayError('Connection Lost'));
+    });
   }
 }
 
@@ -165,7 +207,10 @@ export function createComment(comment) {
     ).then( () => {
       let post = getPostById(getStore(), comment.parentId);
       dispatch(changePost(post.id, {commentCount: post.commentCount + 1})
-    )});
+    )}).catch( error => {
+      console.log(error);
+      dispatch(displayError('Connection Lost'));
+    });
   }
 }
 
@@ -176,6 +221,11 @@ export function createPost(post, callback) {
         type: ADD_POST,
         post
       })}
-    ).then(() => callback && callback());
+    ).then(
+      () => callback && callback()
+    ).catch( error => {
+      console.log(error);
+      dispatch(displayError('Connection Lost'));
+    });
   }
 }

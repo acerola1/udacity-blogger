@@ -90,3 +90,7 @@ export function createUniquePostId(store, title) {
   }
   return postfixedId;
 }
+
+export function getError(store) {
+  return store.error;
+}
