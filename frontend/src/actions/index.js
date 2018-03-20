@@ -1,5 +1,5 @@
 import * as Api from '../utils/blogApi';
-import { getPostById, getCommentById } from '../reducers/selectors';
+import * as selectors from '../reducers/selectors';
 
 export const SET_CATEGORIES = 'SET_CATEGORIES';
 export const SET_POSTS = 'SET_POSTS';
@@ -58,9 +58,18 @@ export function setSorting(sorting) {
 }
 
 export function displayError(message) {
-  return {
-    type: DISPLAY_ERROR,
-    message
+  return (dispatch, getStore) => {
+    let delay = 0;
+    if (selectors.getError(getStore()).open) {
+      delay=250;
+      dispatch(closeError());
+    }
+    setTimeout(() => {
+      dispatch({
+        type: DISPLAY_ERROR,
+        message
+      })
+    }, delay);
   };
 }
 
@@ -145,8 +154,8 @@ export function deleteComment(commentId) {
         comment
       })}
     ).then( () => {
-      let comment = getCommentById(getStore(), commentId);
-      let post = getPostById(getStore(), comment.parentId);
+      let comment = selectors.getCommentById(getStore(), commentId);
+      let post = selectors.getPostById(getStore(), comment.parentId);
       dispatch(changePost(post.id, {commentCount: post.commentCount - 1})
     )}).catch( error => {
       console.log(error);
@@ -205,7 +214,7 @@ export function createComment(comment) {
         comment
       })}
     ).then( () => {
-      let post = getPostById(getStore(), comment.parentId);
+      let post = selectors.getPostById(getStore(), comment.parentId);
       dispatch(changePost(post.id, {commentCount: post.commentCount + 1})
     )}).catch( error => {
       console.log(error);

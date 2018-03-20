@@ -10,7 +10,6 @@ function Error(props) {
       open={props.error.open}
       message={props.error.message}
       autoHideDuration={6000}
-      onRequestClose={props.onClose}
     />
   )
 }

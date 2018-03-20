@@ -69,7 +69,7 @@ function error(state = initialState.error, action) {
     case DISPLAY_ERROR:
       return {...state, message: action.message, open: true};
     case CLOSE_ERROR:
-      return {...state, open: false};
+      return {...state, message: '', open: false};
     default:
       return state;
   }
