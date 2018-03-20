@@ -10,6 +10,11 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 const styles = {
   card: {
@@ -23,13 +28,16 @@ const styles = {
 }
 
 class Post extends Component {
+  contentState = ContentState.createFromBlockArray(htmlToDraft(this.props.post.body).contentBlocks);
+
   state = {
     editing: this.props.mode ? true : false,
     title: this.props.post.title,
     body: this.props.post.body,
     category: this.props.post.category,
     titleError: '',
-    bodyError: ''
+    bodyError: '',
+    editorState: EditorState.createWithContent(this.contentState)
   }
   path = `/${this.props.post.category}/${this.props.post.id}`
 
@@ -41,13 +49,20 @@ class Post extends Component {
 
   onChange = (event, text, name) => this.setState({[name]: text})
 
+  onEditorStateChange = (editorState) => {
+    this.setState({
+      editorState,
+    });
+  };
+
   onOk = event => {
     if (this.isValid()) {
+      let {editorState, title, category} = this.state;
       this.props.changePost(this.props.post.id, {
-        title: this.state.title,
-        body: this.state.body,
+        title: title,
+        body: draftToHtml(convertToRaw(editorState.getCurrentContent())),
         timestamp: Date.now(),
-        category: this.state.category
+        category: category
       });
       this.props.history.push(this.path);
       this.setState({editing: false});
@@ -56,11 +71,10 @@ class Post extends Component {
 
   isValid = () => {
     let {title, body} = this.state;
-    if (title && body) {
+    if (title) {
       return true;
     }
     this.setState({titleError: !title ? 'Required' : ''});
-    this.setState({bodyError: !body ? 'Required' : ''});
   }
 
   onCancel = () => {
@@ -88,17 +102,24 @@ class Post extends Component {
                 id={post.id+'_title'}
                 onChange={(event, text) => this.onChange(event, text, 'title')}
                 value={this.state.title}
-                style={{display: 'block', width: '100%'}}
+                style={{display: 'block', width: '100%', marginBottom: '20px'}}
                 errorText={this.state.titleError}
               />
-              <TextField floatingLabelText={'Body'}
-                id={post.id+'_body'}
-                multiLine={true}
-                onChange={(event, text) => this.onChange(event, text, 'body')}
-                value={this.state.body}
-                style={{display: 'block', width: '100%'}}
-                errorText={this.state.bodyError}
+              <Editor
+                wrapperClassName="demo-wrapper"
+                editorClassName="demo-editor"
+                editorState={this.state.editorState}
+                onEditorStateChange={this.onEditorStateChange}
+                toolbar={{
+                  inline: { inDropdown: true },
+                  list: { inDropdown: true },
+                  textAlign: { inDropdown: true },
+                  link: { inDropdown: true },
+                  history: { inDropdown: true },
+                  image: { alt: { present: true, mandatory: false } },
+                }}
               />
+
               {this.props.mode === 'new' && <SelectField
                 floatingLabelText="Category"
                 value={this.state.category}
