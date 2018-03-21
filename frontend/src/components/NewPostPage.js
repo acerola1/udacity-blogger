@@ -24,7 +24,8 @@ function NewPostPage(props) {
     id: 'new',
     author: props.selectedUser.name,
     timestamp: Date.now(),
-    category: 'react'
+    category: 'react',
+    body: ''
   }
 
   return (
