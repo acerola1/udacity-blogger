@@ -114,7 +114,7 @@ class Post extends Component {
                 editorState={this.state.editorState}
                 onEditorStateChange={this.onEditorStateChange}
                 toolbar={{
-                  inline: { inDropdown: true },
+                  inline: {options: ['bold', 'italic', 'underline', 'strikethrough', 'monospace']},
                   list: { inDropdown: true },
                   textAlign: { inDropdown: true },
                   link: { inDropdown: true },
