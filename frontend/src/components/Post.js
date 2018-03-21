@@ -70,7 +70,7 @@ class Post extends Component {
   }
 
   isValid = () => {
-    let {title, body} = this.state;
+    let {title} = this.state;
     if (title) {
       return true;
     }
@@ -95,7 +95,10 @@ class Post extends Component {
         />
         {!this.state.editing && <CardTitle title={post.title} />}
         <CardText style={{paddingTop: 0, whiteSpace:'pre-wrap'}}>
-          {!this.state.editing && post.body}
+          {!this.state.editing && 
+            // TODO: sanitize body in production to prevent XSS attack
+            <div dangerouslySetInnerHTML={{__html: post.body}}></div>
+          }
           {this.state.editing &&
             <div>
               <TextField floatingLabelText={'Title'}
