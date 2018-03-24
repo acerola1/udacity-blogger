@@ -1,26 +1,39 @@
-# Readable API Server
 
-This is the starter project for the final assessment project for Udacity's Redux course where you will build a content and comment web app. Users will be able to post content to predefined categories, comment on their posts and other users' posts, and vote on posts and comments. Users will also be able to edit and delete posts and comments.
 
-This repository includes the code for the backend API Server that you'll use to develop and interact with the front-end portion of the project.
+**Programming assignment for the [Udacity React Nanodegree](https://www.udacity.com/course/react-nanodegree--nd019) program.**
 
-## Start Developing
+For this assignment only the backend api and the specification was provided.
 
-To get started developing right away:
+---
+# Blogger (Udacity | React nanodegree | project #2 | Readable)
 
-* Install and start the API server
-    - `cd api-server`
-    - `npm install`
-    - `node server`
-* In another terminal window, install and start the pre-scaffolded Create React App project
-    - `cd frontend`
-    - `npm install`
-    - `npm start`
+>This is a blog like web application. You can make new posts and comments. You can also edit/delete the posts and comments and change the score of them. This project do not include authentication. You can change any user posts.
 
-## API Server
+Built with React, Redux and React Router. With a [provided](https://github.com/udacity/reactnd-project-readable-starter) Node.js backend api.
 
-Information about the API server and how to use it can be found in its [README file](api-server/README.md).
 
-## Access The API Server
+![Screenshot](/Screenshot.png?raw=true "Title")
+# Features
 
-To accesss the backend server in your code, we have stored the URL to the API server in the environment variable `REACT_APP_BACKEND` which you can access in your code using `process.env.REACT_APP_BACKEND`. You can see this in action in `frontend/src/App.js` in `componentDidMount`.
+I enjoyed making this project. I have to decide in some implementation details. This is my first time using [Material ui](http://www.material-ui.com).
+
+* added a [Wysiwyg](https://github.com/jpuri/react-draft-wysiwyg) editor so the posts became more bloglike
+* post ids generated from their title to make them SEO friendly
+* implemented a fake user account change module with avatars
+* added some default posts with formatting
+
+# Installation
+After cloning the project. Make sure node.js and npm are installed. I'm using node v.9.6.1 and npm 5.6.0.
+
+**Backend**
+```
+>cd api-server
+>npm i
+>npm start
+```
+**Frontend**
+```
+>cd frontend
+>npm i
+>npm start
+```
