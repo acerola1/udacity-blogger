@@ -1,18 +1,19 @@
 
 
-**Programming assignment for the [Udacity React Nanodegree](https://www.udacity.com/course/react-nanodegree--nd019) program.**
+**This is the second assignment for the [Udacity React Nanodegree](https://www.udacity.com/course/react-nanodegree--nd019) program.**
 
-For this assignment only the backend api and the specification was provided.
+For this React/Redux assignment only the backend api and the specification was provided.
 
 ---
-# Blogger (Udacity | React nanodegree | project #2 | Readable)
+# Blogger aka Readable 
 
 >This is a blog like web application. You can make new posts and comments. You can also edit/delete the posts and comments and change the score of them. This project do not include authentication. You can change any user posts.
 
 Built with React, Redux and React Router. With a [provided](https://github.com/udacity/reactnd-project-readable-starter) Node.js backend api.
 
+Screenshot:
+>![Screenshot](/Screenshot.png?raw=true "Title")
 
-![Screenshot](/Screenshot.png?raw=true "Title")
 # Features
 
 I enjoyed making this project. I have to decide in some implementation details. This is my first time using [Material ui](http://www.material-ui.com).
