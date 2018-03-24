@@ -13,14 +13,16 @@ class App extends Component {
     return (
       <div>
         <MuiThemeProvider>
-          <Switch>
-            <Route exact path="/" component={PostListPage} />
-            <Route exact path="/new-post" component={NewPostPage} />
-            <Route exact path="/:categoryPath/:postId" component={PostPage} />
-            <Route exact path="/:categoryPath/:postId/:mode" component={PostPage} />
-            <Route path="/:categoryPath" component={PostListPage} />
-          </Switch>
-          <Error />
+          <div>
+            <Switch>
+              <Route exact path="/" component={PostListPage} />
+              <Route exact path="/new-post" component={NewPostPage} />
+              <Route exact path="/:categoryPath/:postId" component={PostPage} />
+              <Route exact path="/:categoryPath/:postId/:mode" component={PostPage} />
+              <Route path="/:categoryPath" component={PostListPage} />
+            </Switch>
+            <Error />
+          </div>
         </MuiThemeProvider>
       </div>
     );
