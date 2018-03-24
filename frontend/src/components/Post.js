@@ -94,7 +94,7 @@ class Post extends Component {
           style={{paddingBottom: 0}}
         />
         {!this.state.editing && <CardTitle title={post.title} />}
-        <CardText style={{paddingTop: 0, whiteSpace:'pre-wrap'}}>
+        <CardText style={{paddingTop: 0}}>
           {!this.state.editing &&
             // TODO: sanitize body in production to prevent XSS attack
             <div dangerouslySetInnerHTML={{__html: post.body}}></div>

@@ -3,25 +3,36 @@ const clone = require('clone')
 let db = {}
 
 const defaultData = {
-  "8xf0y6ziyjabvozdd253nd": {
-    id: '8xf0y6ziyjabvozdd253nd',
-    timestamp: 1467166872634,
-    title: 'Udacity is the best place to learn React',
-    body: 'Everyone says so after all.',
-    author: 'thingtwo',
+  "the-advantages-of-react": {
+    id: 'the-advantages-of-react',
+    timestamp: 1521889666403,
+    title: 'The Advantages of React',
+    body: '<h2><span style="color: rgb(0,0,0);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial;">Maecenas luctus ante in</span></h2>\n<p><span style="color: rgb(0,0,0);background-color: rgb(255,255,255);font-size: 16px;font-family: Arial;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempus mollis nisl, a fermentum ipsum dapibus nec. Vestibulum sollicitudin nulla ut lacus pharetra, ac fermentum quam interdum. Aliquam placerat eu dui eu aliquam. <strong>Maecenas luctus, ante in semper finibus</strong>, eros nulla accumsan eros, eu finibus sapien ante et libero. Quisque tempus finibus porttitor. Nullam dui tellus, laoreet sit amet efficitur nec, auctor sit amet ex. Nulla sed pharetra nisi, sed lobortis nibh.</span></p>\n<h2 style="text-align:justify;"><span style="color: rgb(0,0,0);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial;">Lorem ipsum dolor sit amet</span></h2>\n<p><span style="color: rgb(0,0,0);background-color: rgb(255,255,255);font-size: 16px;font-family: Arial;"><em>Consectetur adipiscing elit.</em> Cras luctus neque dui, id tempor nisl cursus in. Suspendisse rhoncus tortor pulvinar, sagittis sapien et, porttitor neque. Phasellus sed porta nisi. Aliquam accumsan justo sed lorem facilisis tincidunt. Integer mollis neque et porta tristique. Fusce convallis ligula in elit viverra interdum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; </span></p>\n<ul>\n<li><span style="color: rgb(0,0,0);background-color: rgb(255,255,255);font-size: 16px;font-family: Arial;">Nam eu sapien nec leo porta eleifend. </span></li>\n<li><span style="color: rgb(0,0,0);background-color: rgb(255,255,255);font-size: 16px;font-family: Arial;">Sed odio turpis, imperdiet fringilla nisl ullamcorper, congue malesuada felis. </span></li>\n<li><span style="color: rgb(0,0,0);background-color: rgb(255,255,255);font-size: 16px;font-family: Arial;">In vitae tortor tristique lacus gravida mattis.</span></li>\n</ul>\n',
+    author: 'eva',
     category: 'react',
     voteScore: 6,
     deleted: false,
     commentCount: 2
   },
-  "6ni6ok3ym7mf1p33lnez": {
-    id: '6ni6ok3ym7mf1p33lnez',
+  "learn-redux-in-10-minutes": {
+    id: 'learn-redux-in-10-minutes',
     timestamp: 1468479767190,
     title: 'Learn Redux in 10 minutes!',
-    body: 'Just kidding. It takes more than 10 minutes to learn technology.',
-    author: 'thingone',
+    body: '<h2><span style="color: rgb(0,0,0);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial;">Maecenas luctus ante in</span></h2>\n<p><span style="color: rgb(0,0,0);background-color: rgb(255,255,255);font-size: 16px;font-family: Arial;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempus mollis nisl, a fermentum ipsum dapibus nec. Vestibulum sollicitudin nulla ut lacus pharetra, ac fermentum quam interdum. Aliquam placerat eu dui eu aliquam. <strong>Maecenas luctus, ante in semper finibus</strong>, eros nulla accumsan eros, eu finibus sapien ante et libero. Quisque tempus finibus porttitor. Nullam dui tellus, laoreet sit amet efficitur nec, auctor sit amet ex. Nulla sed pharetra nisi, sed lobortis nibh.</span></p>\n<h2 style="text-align:justify;"><span style="color: rgb(0,0,0);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial;">Lorem ipsum dolor sit amet</span></h2>\n<p><span style="color: rgb(0,0,0);background-color: rgb(255,255,255);font-size: 16px;font-family: Arial;"><em>Consectetur adipiscing elit.</em> Cras luctus neque dui, id tempor nisl cursus in. Suspendisse rhoncus tortor pulvinar, sagittis sapien et, porttitor neque. Phasellus sed porta nisi. Aliquam accumsan justo sed lorem facilisis tincidunt. Integer mollis neque et porta tristique. Fusce convallis ligula in elit viverra interdum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; </span></p>\n<ul>\n<li><span style="color: rgb(0,0,0);background-color: rgb(255,255,255);font-size: 16px;font-family: Arial;">Nam eu sapien nec leo porta eleifend. </span></li>\n<li><span style="color: rgb(0,0,0);background-color: rgb(255,255,255);font-size: 16px;font-family: Arial;">Sed odio turpis, imperdiet fringilla nisl ullamcorper, congue malesuada felis. </span></li>\n<li><span style="color: rgb(0,0,0);background-color: rgb(255,255,255);font-size: 16px;font-family: Arial;">In vitae tortor tristique lacus gravida mattis.</span></li>\n</ul>\n',
+    author: 'mike',
     category: 'redux',
     voteScore: -5,
+    deleted: false,
+    commentCount: 0
+  },
+  'react-native-the-new-holy-grail-of-mobile-development': {
+    id: 'react-native-the-new-holy-grail-of-mobile-development',
+    timestamp: 1521897624540,
+    title: 'React Native: The new holy grail of mobile development?',
+    body: '<h2><span style="color: rgb(0,0,0);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial;">Maecenas luctus ante in</span></h2>\n<p><span style="color: rgb(0,0,0);background-color: rgb(255,255,255);font-size: 16px;font-family: Arial;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempus mollis nisl, a fermentum ipsum dapibus nec. Vestibulum sollicitudin nulla ut lacus pharetra, ac fermentum quam interdum. Aliquam placerat eu dui eu aliquam. <strong>Maecenas luctus, ante in semper finibus</strong>, eros nulla accumsan eros, eu finibus sapien ante et libero. Quisque tempus finibus porttitor. Nullam dui tellus, laoreet sit amet efficitur nec, auctor sit amet ex. Nulla sed pharetra nisi, sed lobortis nibh.</span></p>\n<h2 style="text-align:justify;"><span style="color: rgb(0,0,0);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial;">Lorem ipsum dolor sit amet</span></h2>\n<p><span style="color: rgb(0,0,0);background-color: rgb(255,255,255);font-size: 16px;font-family: Arial;"><em>Consectetur adipiscing elit.</em> Cras luctus neque dui, id tempor nisl cursus in. Suspendisse rhoncus tortor pulvinar, sagittis sapien et, porttitor neque. Phasellus sed porta nisi. Aliquam accumsan justo sed lorem facilisis tincidunt. Integer mollis neque et porta tristique. Fusce convallis ligula in elit viverra interdum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; </span></p>\n<ul>\n<li><span style="color: rgb(0,0,0);background-color: rgb(255,255,255);font-size: 16px;font-family: Arial;">Nam eu sapien nec leo porta eleifend. </span></li>\n<li><span style="color: rgb(0,0,0);background-color: rgb(255,255,255);font-size: 16px;font-family: Arial;">Sed odio turpis, imperdiet fringilla nisl ullamcorper, congue malesuada felis. </span></li>\n<li><span style="color: rgb(0,0,0);background-color: rgb(255,255,255);font-size: 16px;font-family: Arial;">In vitae tortor tristique lacus gravida mattis.</span></li>\n</ul>\n',
+    author: 'james',
+    category: 'react',
+    voteScore: 1,
     deleted: false,
     commentCount: 0
   }
