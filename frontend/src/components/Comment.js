@@ -78,18 +78,19 @@ class Comment extends Component {
             <span style={{display: 'inline-block'}}><ClockIcon style={styles.icon}/>{` ${moment(+comment.timestamp).fromNow()}`}</span>
           </div>
         </div>
-        <div style={{display: 'block', width: '190px'}} >
+        <div style={{display: 'block', minWidth: '190px'}} >
+          <MoreMenu
+            id={comment.id}
+            style={{float: 'right'}}
+            onDelete={(id) => this.props.deleteComment(id)}
+            onEdit={this.onEdit}
+          />
           <VoteComponent
             float={false}
-            style={{verticalAlign: 'top'}}
+            style={{verticalAlign: 'top', float: 'right'}}
             voteScore={comment.voteScore}
             onUpVote={(event) => this.onVoteComment(comment.id, 'upVote', event)}
             onDownVote={(event) => this.onVoteComment(comment.id, 'downVote', event)}
-          />
-          <MoreMenu
-            id={comment.id}
-            onDelete={(id) => this.props.deleteComment(id)}
-            onEdit={this.onEdit}
           />
         </div>
       </div>
