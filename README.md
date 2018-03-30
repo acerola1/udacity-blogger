@@ -7,7 +7,7 @@ For this React/Redux assignment only the backend api and the specification was p
 ---
 # Blogger aka Readable 
 
->This is a blog like web application. You can make new posts and comments. You can also edit/delete the posts and comments and change the score of them. This project do not include authentication. You can change any user posts.
+>This is a blog like web application. You can make new posts and comments. You can also edit/delete the posts and comments and change the score of them. This project do not include authentication. You can change any user's posts.
 
 Built with React, Redux and React Router. With a [provided](https://github.com/udacity/reactnd-project-readable-starter) Node.js backend api.
 
@@ -16,11 +16,11 @@ Screenshot:
 
 # Features
 
-I enjoyed making this project. I have to decide in some implementation details. This is my first time using [Material ui](http://www.material-ui.com).
-
+I enjoyed making this project. I have to decide in some implementation details. 
+* this is my first time using [Material ui](http://www.material-ui.com).
 * added a [Wysiwyg](https://github.com/jpuri/react-draft-wysiwyg) editor so the posts became more bloglike
-* post ids generated from their title to make them SEO friendly
-* implemented a fake user account change module with avatars
+* ids of posts generated from their title to make them SEO friendly
+* implemented a fake user account module to be able to use different avatars
 * added some default posts with formatting
 
 # Installation
