@@ -109,7 +109,6 @@ app.get('/api/', (req, res) => {
         Sets a comment's deleted flag to 'true'
  </pre>
   `
-
   res.send(help)
 })
 
@@ -316,3 +315,7 @@ app.delete('/api/comments/:id', (req, res) => {
 app.listen(config.port, () => {
   console.log('Server listening on port %s, Ctrl+C to stop', config.port)
 })
+
+module.exports = {
+    app
+}
