@@ -117,7 +117,7 @@ app.use((req, res, next) => {
 
   if (token) {
     req.token = token
-    next()
+    return next()
   } else {
     res.status(403).send({
       error: 'Please provide an Authorization header to identify yourself (can be whatever you want)'
@@ -129,7 +129,8 @@ app.use((req, res, next) => {
 app.get('/api/categories', (req, res) => {
     categories.getAll(req.token)
       .then(
-          (data) => res.send(data),
+          (data) => res.send(data)
+      ).catch(
           (error) => {
               console.error(error)
               res.status(500).send({
@@ -142,7 +143,8 @@ app.get('/api/categories', (req, res) => {
 app.get('/api/:category/posts', (req, res) => {
     posts.getByCategory(req.token, req.params.category)
       .then(
-          (data) => res.send(data),
+          (data) => res.send(data)
+        ).catch(
           (error) => {
               console.error(error)
               res.status(500).send({
@@ -155,7 +157,8 @@ app.get('/api/:category/posts', (req, res) => {
 app.get('/api/posts', (req, res) => {
     posts.getAll(req.token)
       .then(
-          (data) => res.send(data),
+          (data) => res.send(data)
+        ).catch(
           (error) => {
               console.error(error)
               res.status(500).send({
@@ -168,7 +171,8 @@ app.get('/api/posts', (req, res) => {
 app.post('/api/posts', bodyParser.json(), (req, res) => {
     posts.add(req.token, req.body)
       .then(
-          (data) => res.send(data),
+          (data) => res.send(data)
+        ).catch(
           (error) => {
               console.error(error)
               res.status(500).send({
@@ -181,7 +185,8 @@ app.post('/api/posts', bodyParser.json(), (req, res) => {
 app.get('/api/posts/:id', (req, res) => {
     posts.get(req.token, req.params.id)
       .then(
-          (data) => res.send(data),
+          (data) => res.send(data)
+        ).catch(
           (error) => {
               console.error(error)
               res.status(500).send({
@@ -195,7 +200,8 @@ app.delete('/api/posts/:id', (req, res) => {
     posts.disable(req.token, req.params.id)
       .then(post => comments.disableByParent(req.token, post))
       .then(
-          (data) => res.send(data),
+          (data) => res.send(data)
+        ).catch(
           (error) => {
               console.error(error)
               res.status(500).send({
@@ -210,7 +216,8 @@ app.post('/api/posts/:id', bodyParser.json(), (req, res) => {
     const id = req.params.id
     posts.vote(req.token, id, option)
       .then(
-          (data) => res.send(data),
+          (data) => res.send(data)
+        ).catch(
           (error) => {
               console.error(error)
               res.status(500).send({
@@ -223,7 +230,8 @@ app.post('/api/posts/:id', bodyParser.json(), (req, res) => {
 app.put('/api/posts/:id', bodyParser.json(), (req, res) => {
     posts.edit(req.token, req.params.id, req.body)
       .then(
-        (data) => res.send(data),
+        (data) => res.send(data)
+    ).catch(
           (error) => {
               console.error(error)
               res.status(500).send({
@@ -236,7 +244,8 @@ app.put('/api/posts/:id', bodyParser.json(), (req, res) => {
 app.get('/api/posts/:id/comments', (req, res) => {
     comments.getByParent(req.token, req.params.id)
       .then(
-          (data) => res.send(data),
+          (data) => res.send(data)
+        ).catch(
           (error) => {
               console.error(error)
               res.status(500).send({
@@ -249,7 +258,8 @@ app.get('/api/posts/:id/comments', (req, res) => {
 app.get('/api/comments/:id', (req, res) => {
     comments.get(req.token, req.params.id)
       .then(
-          (data) => res.send(data),
+          (data) => res.send(data)
+        ).catch(
           (error) => {
               console.error(error)
               res.status(500).send({
@@ -262,7 +272,8 @@ app.get('/api/comments/:id', (req, res) => {
 app.put('/api/comments/:id', bodyParser.json(), (req, res) => {
     comments.edit(req.token, req.params.id, req.body)
       .then(
-        (data) => res.send(data),
+        (data) => res.send(data)
+    ).catch(
           (error) => {
               console.error(error)
               res.status(500).send({
@@ -275,7 +286,8 @@ app.put('/api/comments/:id', bodyParser.json(), (req, res) => {
 app.post('/api/comments', bodyParser.json(), (req, res) => {
     comments.add(req.token, req.body)
       .then(
-          (data) => res.send(data),
+          (data) => res.send(data)
+        ).catch(
           (error) => {
               console.error(error)
               res.status(500).send({
@@ -289,7 +301,8 @@ app.post('/api/comments/:id', bodyParser.json(), (req, res) => {
     const { option } = req.body
     comments.vote(req.token, req.params.id, option)
       .then(
-          (data) => res.send(data),
+          (data) => res.send(data)
+        ).catch(
           (error) => {
               console.error(error)
               res.status(500).send({
@@ -302,7 +315,8 @@ app.post('/api/comments/:id', bodyParser.json(), (req, res) => {
 app.delete('/api/comments/:id', (req, res) => {
     comments.disable(req.token, req.params.id)
       .then(
-          (data) => res.send(data),
+          (data) => res.send(data)
+        ).catch(
           (error) => {
               console.error(error)
               res.status(500).send({
