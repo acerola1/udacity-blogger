@@ -22,13 +22,14 @@ I enjoyed making this project. I have to decide in some implementation details.
 * ids of posts generated from their title to make them SEO friendly
 * implemented a fake user account module to be able to use different avatars
 * added some default posts with formatting
+* FireBase hosting added. Client side as a static html. Server side as a node.js cloud function.
 
 # Installation
 After cloning the project. Make sure node.js and npm are installed. I'm using node v.9.6.1 and npm 5.6.0.
 
 **Backend**
 ```
->cd api-server
+>cd functions
 >npm i
 >npm start
 ```
@@ -38,3 +39,5 @@ After cloning the project. Make sure node.js and npm are installed. I'm using no
 >npm i
 >npm start
 ```
+**Online demo**
+Hosted on Firebase: [https://udacity-blogger-2eb6a.firebaseapp.com/](https://udacity-blogger-2eb6a.firebaseapp.com/) 
