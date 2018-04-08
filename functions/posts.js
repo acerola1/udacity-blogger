@@ -40,7 +40,7 @@ const defaultData = {
 
 function getData (token) {
   let data = db[token]
-  if (data === null) {
+  if (data === undefined) {
     data = db[token] = clone(defaultData)
   }
   return data
