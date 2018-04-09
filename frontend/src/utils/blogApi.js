@@ -1,4 +1,6 @@
-const baseUrl = process.env.NODE_ENV === 'production' ? '/api' : process.env.REACT_APP_BACKEND;
+//const baseUrl = process.env.NODE_ENV === 'production' ? '/api' : process.env.REACT_APP_BACKEND;
+// TODO: temporary solution for udacity review
+const baseUrl = process.env.REACT_APP_BACKEND;
 
 let token = localStorage.token;
 
