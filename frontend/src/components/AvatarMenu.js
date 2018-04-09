@@ -7,8 +7,7 @@ import Avatar from 'material-ui/Avatar';
 import { getUsers, getSelectedUser } from '../reducers/selectors';
 import { setSelectedUser } from '../actions';
 
-const AvatarMenu = (props) => {
-  let {dispatch, selectedUser, setSelectedUser, ...rest} = props;
+const AvatarMenu = ({dispatch, selectedUser, setSelectedUser, users, ...rest}) => {
   return (
     <IconMenu
       {...rest}
@@ -21,7 +20,7 @@ const AvatarMenu = (props) => {
       targetOrigin={{horizontal: 'right', vertical: 'top'}}
       anchorOrigin={{horizontal: 'right', vertical: 'top'}}
     >
-      {props.users.map(user =>
+      {users.map(user =>
         <MenuItem
           key={user.name}
           primaryText={user.name}

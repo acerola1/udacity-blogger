@@ -7,10 +7,13 @@ import FlatButton from 'material-ui/FlatButton';
 import * as actions from '../actions';
 import uuid from 'uuid';
 
+const defaultState = {
+  body: '',
+  bodyError: ''
+};
+
 class NewComment extends Component {
-  state = {
-    body: ''
-  }
+  state = defaultState;
 
   onChange = (event, body) => {
     if (body.endsWith('\n')) {
@@ -21,16 +24,26 @@ class NewComment extends Component {
   }
 
   onOk = () => {
-    let {post} = this.props;
-    let comment = {
-      id: uuid(),
-      timestamp: Date.now(),
-      body: this.state.body,
-      author: this.props.selectedUser.name,
-      parentId: post.id
+    if (this.isValid()) {
+      let {post} = this.props;
+      let comment = {
+        id: uuid(),
+        timestamp: Date.now(),
+        body: this.state.body,
+        author: this.props.selectedUser.name,
+        parentId: post.id
+      }
+      this.props.createComment(comment, post)
+      this.setState(defaultState);
     }
-    this.props.createComment(comment, post)
-    this.setState({body: ''});
+  }
+
+  isValid = () => {
+    let {body} = this.state;
+    if (body) {
+      return true;
+    }
+    this.setState({bodyError: !body ? 'Required' : ''});
   }
 
   render() {
@@ -43,6 +56,7 @@ class NewComment extends Component {
           multiLine={true}
           onChange={this.onChange}
           value={this.state.body}
+          errorText={this.state.bodyError}
           hintText={`Hey ${this.props.selectedUser.name} write a comment...`}
         />
         <FlatButton label="OK" onClick={this.onOk} />

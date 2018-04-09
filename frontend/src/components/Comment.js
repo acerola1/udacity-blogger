@@ -22,10 +22,10 @@ const styles = {
     verticalAlign: 'top'
   }
 }
+const defaultState = {editing: false, body: ''};
 
 class Comment extends Component {
-
-  state = {editing: false, body: ''};
+  state = defaultState;
 
   onVoteComment = (commentId, option, event) => {
     event.stopPropagation();
@@ -49,7 +49,7 @@ class Comment extends Component {
       body: this.state.body,
       timestamp: Date.now()
     });
-    this.setState({editing: false, body: ''});
+    this.setState(defaultState);
   }
 
   render() {

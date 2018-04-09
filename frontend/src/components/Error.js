@@ -4,11 +4,11 @@ import * as selector from '../reducers/selectors';
 import * as actions from '../actions';
 import Snackbar from 'material-ui/Snackbar';
 
-function Error(props) {
+function Error({error: {open, message}}) {
   return (
     <Snackbar
-      open={props.error.open}
-      message={props.error.message}
+      open={open}
+      message={message}
       autoHideDuration={6000}
     />
   )

@@ -5,6 +5,7 @@ import VoteComponent from './VoteComponent';
 import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import ClockIcon from 'material-ui/svg-icons/action/schedule';
+import ChatIcon from 'material-ui/svg-icons/communication/chat-bubble';
 import UserIcon from 'material-ui/svg-icons/social/person';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
@@ -42,7 +43,7 @@ class Post extends Component {
   path = `/${this.props.post.category}/${this.props.post.id}`
 
   onEdit = id => {
-    this.props.history.push(this.path + '/edit');
+    this.props.history.push(`${this.path}/edit`);
     let {post} = this.props;
     this.setState({editing: true, title: post.title, body: post.body});
   }
@@ -89,7 +90,10 @@ class Post extends Component {
       <Card style={styles.card}>
         <CardHeader
           title={<span><UserIcon style={styles.icon}/>{` ${post.author}`}</span>}
-          subtitle={<span><ClockIcon style={styles.icon}/>{` ${moment(+post.timestamp).fromNow()}`}</span>}
+          subtitle={<span>
+            <ClockIcon style={styles.icon}/>{` ${moment(+post.timestamp).fromNow()}, `}
+            <ChatIcon style={styles.icon}/>{` comments: ${post.commentCount}`}
+            </span>}
           avatar={this.props.avatar}
           style={{paddingBottom: 0}}
         />
