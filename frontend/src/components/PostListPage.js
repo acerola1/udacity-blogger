@@ -69,8 +69,8 @@ class PostListPage extends Component {
         />
         {this.props.postLoading && <CircularProgress style={{margin: '30px'}} />}
         {!this.props.postLoading && <PostList {...{categoryName, categoryPath, history}} />}
-        <FloatingActionButton style={this.fobStyle}>
-          <ContentAdd onClick={() => this.props.history.push('/new-post')} />
+        <FloatingActionButton style={this.fobStyle} onClick={() => this.props.history.push('/new-post')}>
+          <ContentAdd />
         </FloatingActionButton>
       </div>
     );
