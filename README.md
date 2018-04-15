@@ -28,6 +28,14 @@ I enjoyed making this project. I have to decide in some implementation details.
 After cloning the project. Make sure node.js and npm are installed. I'm using node v.9.6.1 and npm 5.6.0.
 
 **Backend**
+
+There is a Firebase dependency on the backend. So you either install Firebase globally with:
+```
+npm i -g firebase-tools
+```
+or you can remove "firebase-admin" and "firebase-functions" from /functions/package.json. In this case the Firebase deploy otion will not work of course.
+The backend can be started:
+
 ```
 >cd functions
 >npm i
@@ -39,5 +47,30 @@ After cloning the project. Make sure node.js and npm are installed. I'm using no
 >npm i
 >npm start
 ```
+
+**Deploying to Firebase**
+
+Create a new project on Firebase. Update .firebaserc with your new project ID.
+```
+"default": "<YOUR POJECT ID>"
+```
+Create a build in frontend with:
+```
+npm run build
+```
+You can start a local emulation or you can deploy the project now. After logging in on Firebase.
+```
+emulation:
+firebase serve --only functions,hosting
+
+deploy:
+firebase deploy
+```
+
+**Known limitation with Firebase:** 
+
+* There is no proper database in the backend, only in memory storage. So you can try the app with the default dataset and you can modify it, but all modification will be erased within a couple hours.
+
 **Online demo**
+
 Hosted on Firebase: [https://udacity-blogger-2eb6a.firebaseapp.com/](https://udacity-blogger-2eb6a.firebaseapp.com/) 
