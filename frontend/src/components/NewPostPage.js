@@ -33,8 +33,8 @@ function NewPostPage(props) {
       <AppBar
         title="Blogger"
         iconElementLeft={
-          <IconButton>
-            <BackIcon onClick={(e, i) => goBack()}/>
+          <IconButton onClick={(e, i) => goBack()}>
+            <BackIcon/>
           </IconButton>
         }
         iconElementRight={
